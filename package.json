@@ -1,0 +1,27 @@
+{
+  "name": "node-express-starter",
+  "version": "1.0.0",
+  "description": "Node application with express and Jasmine.",
+  "main": "server.js",
+  "author": "JT Wheeler",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn serve",
+    "build": "yarn build-ts && yarn tslint",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "serve": "node dist/server.js",
+    "test": "jasmine",
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/node": "^9.4.0",
+    "jasmine": "^2.9.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.1"
+  }
+}
