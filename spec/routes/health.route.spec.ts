@@ -2,12 +2,12 @@
 import * as request from 'supertest';
 import * as app from '../../src/app';
 
-describe('GET /api/hello', () => {
+describe('GET /api/health', () => {
     it('should return 200 OK', () => {
-        request(app).get('/api/hello')
+        request(app).get('/api/health')
             .expect(200)
-            .expect((res: any) => {
-            res.text = 'Hello World!';
-        });
-    });
-});
+            .expect((response: any) => {
+                response.text = 'OK';
+            });
+     });
+ });
