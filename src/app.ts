@@ -1,10 +1,12 @@
+import config from './config/config';
 import * as express from 'express';
-import * as helloController from './controllers/hello';
+import * as bodyParser from 'body-parser';
+import routes from './routes/index.route';
 
 const app = express();
-
-app.set('port', process.env.PORT || 3000);
-
-app.get('/', helloController.hello);
+app.set('port', config.port);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api', routes);
 
 module.exports = app;
