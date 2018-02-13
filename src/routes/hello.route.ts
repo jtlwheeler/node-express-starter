@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { hello } from '../controllers/hello.controller';
-import paramValidation from '../config/param-validation';
 
 const router = express.Router();
 
