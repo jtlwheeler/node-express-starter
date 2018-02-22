@@ -1,4 +1,4 @@
-/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
+import 'jasmine';
 import * as supertest from 'supertest';
 import * as app from '../../src/app';
 
@@ -7,8 +7,9 @@ describe('GET /api/health', () => {
         supertest(app).get('/api/health')
             .expect(200)
             .end((error: any, response: any) => {
-                if (error)
+                if (error) {
                     throw error;
+                }
 
                 expect(response.body.apiStatus).toBe('OK');
             });
