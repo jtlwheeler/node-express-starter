@@ -7,6 +7,19 @@ import * as bluebird from 'bluebird';
 const chance = new Chance();
 
 describe('User model', function () {
+    let email: string;
+    let password: string;
+    let newUser: any;
+
+    beforeEach(function () {
+        email = chance.email();
+        password = chance.string();
+
+        newUser = new User({
+            email: email,
+            password: password
+        });
+    });
 
     beforeAll(function () {
         (<any>mongoose).Promise = bluebird;
@@ -18,14 +31,6 @@ describe('User model', function () {
     });
 
     it('save() should add new user to database', function () {
-        const email = chance.email();
-        const password = chance.string();
-
-        const newUser = new User({
-            email: email,
-            password: password
-        });
-
         return newUser.save()
             .then((user: UserModel) => {
                 return User.findOne({ email: email }, (error: any, user: any) => {
@@ -40,14 +45,6 @@ describe('User model', function () {
     });
 
     it('comparePassword() should return false when wrong password is entered', function () {
-        const email = chance.email();
-        const password = chance.string();
-
-        const newUser = new User({
-            email: email,
-            password: password
-        });
-
         return newUser.save()
             .then((user: UserModel) => {
                 return User.findOne({ email: email }, (error: any, user: any) => {
