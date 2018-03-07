@@ -1,10 +1,12 @@
 import * as express from 'express';
-import hello from './hello.route';
-import { healthCheck } from '../controllers/health.controller';
+import helloRoute from '../routes/hello.route';
+import healthRoute from '../routes/health.route';
+import userRoute from '../routes/user.route';
 
 const router = express.Router();
 
-router.use('/health', healthCheck);
-router.use('/hello', hello);
+router.use('/health', healthRoute);
+router.use('/hello', helloRoute);
+router.use('/user', userRoute);
 
 export default router;
