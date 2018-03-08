@@ -4,7 +4,6 @@ import * as app from '../../src/app';
 import { Chance } from 'chance';
 const chance = new Chance();
 import * as mongoose from 'mongoose';
-import config from '../../src/config/config';
 import User from '../../src/models/User';
 
 const SIGN_UP_PATH = '/api/user/signUp/';
@@ -95,19 +94,45 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
                     throw error;
                 }
 
-                mongoose.connect(config.mongoUri)
-                    .then(() => {
-                        User.findOne({ email: body.email}, (error: any, user: any) => {
+                        User.findOne({ email: body.email }, (error: any, user: any) => {
                             if (error) {
-                                fail(error);
+                                done.fail(error);
                             }
 
                             expect(user).toBeTruthy();
                             expect(user.email).toBe(body.email);
                             done();
                         });
-                    });
-
             });
+    });
+
+    it('should return 400 when existing user tries to sign up', function (done) {
+        const password = chance.string();
+        const newEmail = chance.email();
+        const body = {
+            email: newEmail,
+            password: password,
+            confirmPassword: password
+        };
+
+        const user = new User({ email: newEmail });
+        user.save((errors: any) => {
+            if (errors) {
+                done.fail(errors);
+            }
+
+            supertest(app).post(SIGN_UP_PATH)
+                .send(body)
+                .expect(400)
+                .end((error: any, response: any) => {
+                    if (error) {
+                        done.fail(error);
+                    }
+
+                    expect(response.body.errors).toBeTruthy();
+                    expect(response.body.errors[0].message).toBe('User already exists');
+                    done();
+                });
+        });
     });
 });
