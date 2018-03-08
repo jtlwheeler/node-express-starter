@@ -9,7 +9,7 @@ export const ParamValidation = {
         body: {
             email: Joi.string().required().email(),
             password: Joi.string().required(),
-            confirmPassword: Joi.string().required()
+            confirmPassword: Joi.string().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match \"password\"' } } })
         }
     }
 };

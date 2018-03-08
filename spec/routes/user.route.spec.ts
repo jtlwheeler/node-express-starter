@@ -55,4 +55,25 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
                 done();
             });
     });
+
+    it('should return 400 when password and confirmation password do not match', function (done) {
+        const body = {
+            email: chance.email(),
+            password: 'password',
+            confirmPassword: 'differentPassword'
+        };
+
+        supertest(app).post(SIGN_UP_PATH)
+            .send(body)
+            .expect(400)
+            .end((error: any, response: any) => {
+                if (error) {
+                    throw error;
+                }
+
+                console.log(response.body);
+                expect(response.body.errors).toBeTruthy();
+                done();
+            });
+    });
 });
