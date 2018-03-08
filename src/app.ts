@@ -3,10 +3,17 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import routes from './routes/index.route';
 import * as morgan from 'morgan';
+import * as mongoose from 'mongoose';
+import * as bluebird from 'bluebird';
+
+(<any>mongoose).Promise = bluebird;
+mongoose.connect(config.mongoUri);
 
 const app = express();
 app.set('port', config.port);
-app.use(morgan('combined'));
+if (config.env == 'production') {
+    app.use(morgan('combined'));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', routes);

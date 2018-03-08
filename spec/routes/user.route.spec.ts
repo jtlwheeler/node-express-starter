@@ -3,6 +3,9 @@ import * as supertest from 'supertest';
 import * as app from '../../src/app';
 import { Chance } from 'chance';
 const chance = new Chance();
+import * as mongoose from 'mongoose';
+import config from '../../src/config/config';
+import User from '../../src/models/User';
 
 const SIGN_UP_PATH = '/api/user/signUp/';
 
@@ -71,9 +74,40 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
                     throw error;
                 }
 
-                console.log(response.body);
                 expect(response.body.errors).toBeTruthy();
                 done();
+            });
+    });
+
+    it('should return 200 success and add user to database', function (done) {
+        const password = chance.string();
+        const body = {
+            email: chance.email(),
+            password: password,
+            confirmPassword: password
+        };
+
+        supertest(app).post(SIGN_UP_PATH)
+            .send(body)
+            .expect(200)
+            .end((error: any, response: any) => {
+                if (error) {
+                    throw error;
+                }
+
+                mongoose.connect(config.mongoUri)
+                    .then(() => {
+                        User.findOne({ email: body.email}, (error: any, user: any) => {
+                            if (error) {
+                                fail(error);
+                            }
+
+                            expect(user).toBeTruthy();
+                            expect(user.email).toBe(body.email);
+                            done();
+                        });
+                    });
+
             });
     });
 });

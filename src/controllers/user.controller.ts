@@ -1,6 +1,7 @@
 import { ParamValidation } from '../config/param-validation';
 import { Request, Response } from 'express';
 import { requestValidator } from './request-validator';
+import User, { UserModel } from '../models/User';
 
 export let signUp = (request: Request, response: Response) => {
     const errors = requestValidator(request, ParamValidation.signUp);
@@ -9,5 +10,29 @@ export let signUp = (request: Request, response: Response) => {
         return response.send({ errors: errors });
     }
 
-    response.send();
+    const user = new User({
+        email: request.body.email,
+        password: request.body.password
+    });
+
+    User.findOne({ email: request.body.email }, (err: any, existingUser: UserModel) => {
+        if (err) {
+            response.statusCode = 400;
+            return response.send();
+        }
+
+        if (existingUser) {
+            response.statusCode = 400;
+            return response.send({ errors: [{ message: 'User already exists' }] });
+        }
+
+        user.save((err: any) => {
+            if (err) {
+                response.statusCode = 400;
+                return response.send();
+            }
+
+            response.send();
+        });
+    });
 };

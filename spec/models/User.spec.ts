@@ -23,11 +23,6 @@ describe('User model', function () {
             .then(done, done.fail);
     });
 
-    afterAll(function (done) {
-        mongoose.disconnect()
-            .then(done, done.fail);
-    });
-
     it('save() should add new user to database', function (done) {
         this.newUser.save()
             .then((user: UserModel) => {
