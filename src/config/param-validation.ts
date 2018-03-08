@@ -1,6 +1,10 @@
 import * as Joi from 'joi';
 
-export let ValidationSchema = {
+export interface ValidationSchema {
+    body?: { };
+}
+
+export const ParamValidation = {
     signUp: {
         body: {
             email: Joi.string().required().email(),
