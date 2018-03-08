@@ -5,13 +5,14 @@ import { Chance } from 'chance';
 const chance = new Chance();
 import * as mongoose from 'mongoose';
 import User from '../../src/models/User';
+import * as HttpStatus from 'http-status-codes';
 
 const SIGN_UP_PATH = '/api/user/signUp/';
 
 describe(`POST ${SIGN_UP_PATH}`, function () {
     it('should return 400 and errors when email address is not passed', function (done) {
         supertest(app).post(SIGN_UP_PATH)
-            .expect(400)
+            .expect(HttpStatus.BAD_REQUEST)
             .end((error: any, response: any) => {
                 if (error) {
                     throw error;
@@ -26,7 +27,7 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
 
     it('should return 400 and errors with messages when required fields are not passed', function (done) {
         supertest(app).post(SIGN_UP_PATH)
-            .expect(400)
+            .expect(HttpStatus.BAD_REQUEST)
             .end((error: any, response: any) => {
                 if (error) {
                     throw error;
@@ -48,7 +49,7 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
 
         supertest(app).post(SIGN_UP_PATH)
             .send(body)
-            .expect(200)
+            .expect(HttpStatus.OK)
             .end((error: any, response: any) => {
                 if (error) {
                     throw error;
@@ -67,7 +68,7 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
 
         supertest(app).post(SIGN_UP_PATH)
             .send(body)
-            .expect(400)
+            .expect(HttpStatus.BAD_REQUEST)
             .end((error: any, response: any) => {
                 if (error) {
                     throw error;
@@ -88,21 +89,21 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
 
         supertest(app).post(SIGN_UP_PATH)
             .send(body)
-            .expect(200)
+            .expect(HttpStatus.OK)
             .end((error: any, response: any) => {
                 if (error) {
                     throw error;
                 }
 
-                        User.findOne({ email: body.email }, (error: any, user: any) => {
-                            if (error) {
-                                done.fail(error);
-                            }
+                User.findOne({ email: body.email }, (error: any, user: any) => {
+                    if (error) {
+                        done.fail(error);
+                    }
 
-                            expect(user).toBeTruthy();
-                            expect(user.email).toBe(body.email);
-                            done();
-                        });
+                    expect(user).toBeTruthy();
+                    expect(user.email).toBe(body.email);
+                    done();
+                });
             });
     });
 
@@ -123,7 +124,7 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
 
             supertest(app).post(SIGN_UP_PATH)
                 .send(body)
-                .expect(400)
+                .expect(HttpStatus.BAD_REQUEST)
                 .end((error: any, response: any) => {
                     if (error) {
                         done.fail(error);
