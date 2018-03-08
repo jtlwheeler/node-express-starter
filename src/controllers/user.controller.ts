@@ -8,4 +8,6 @@ export let signUp = (request: Request, response: Response) => {
         response.statusCode = 400;
         return response.send({ errors: errors });
     }
+
+    response.send();
 };
