@@ -1,9 +1,7 @@
 import 'jasmine';
 import User, { UserModel } from '../../src/models/User';
-import * as mongoose from 'mongoose';
 import config from '../../src/config/config';
 import { Chance } from 'chance';
-import * as bluebird from 'bluebird';
 const chance = new Chance();
 
 describe('User model', function () {
@@ -15,12 +13,6 @@ describe('User model', function () {
             email: this.email,
             password: this.password
         });
-    });
-
-    beforeAll(function (done) {
-        (<any>mongoose).Promise = bluebird;
-        mongoose.connect(config.mongoUri)
-            .then(done, done.fail);
     });
 
     it('save() should add new user to database', function (done) {
@@ -35,7 +27,8 @@ describe('User model', function () {
                     expect(user.email).toBe(this.email);
                 });
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch((error: any) => done.fail(error));
     });
 
     it('comparePassword() should return false when wrong password is entered and true if correct password is enter', function (done) {
@@ -64,6 +57,7 @@ describe('User model', function () {
                     });
                 });
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch((error: any) => done.fail(error));
     });
 });
