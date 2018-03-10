@@ -4,7 +4,6 @@ import { requestValidator } from './request-validator';
 import User, { UserModel } from '../models/User';
 import * as HttpStatus from 'http-status-codes';
 
-
 export let signUp = (request: Request, response: Response) => {
     const errors = requestValidator(request, ParamValidation.signUp);
     if (errors) {
