@@ -1,9 +1,9 @@
 import 'jasmine';
-import * as supertest from 'supertest';
 import { Chance } from 'chance';
 import User, { UserModel } from '../../src/models/User';
 import * as HttpStatus from 'http-status-codes';
 import * as app from '../../src/app';
+const supertest = require('supertest')(app);
 import * as jwt from 'jsonwebtoken';
 import { insertUser } from '../helpers/insertUser';
 const chance = new Chance();
@@ -21,7 +21,7 @@ describe(`POST ${LOGIN_PATH}`, function () {
 
         insertUser(email, password)
             .then(() => {
-                supertest(app).post('/api/auth/login')
+                supertest.post('/api/auth/login')
                     .send(body)
                     .expect(HttpStatus.OK)
                     .end((error: any, response: any) => {
@@ -40,7 +40,7 @@ describe(`POST ${LOGIN_PATH}`, function () {
 
 
     it('should return 400 when email and password are missing', function (done) {
-        supertest(app).post(LOGIN_PATH)
+        supertest.post(LOGIN_PATH)
             .expect(HttpStatus.BAD_REQUEST)
             .end((error: any, response: any) => {
                 if (error) {
@@ -63,7 +63,7 @@ describe(`POST ${LOGIN_PATH}`, function () {
                     password: 'wrongPassword'
                 };
 
-                supertest(app).post(LOGIN_PATH)
+                supertest.post(LOGIN_PATH)
                     .send(body)
                     .expect(400)
                     .end((error: any, response: any) => {
@@ -91,7 +91,7 @@ describe(`POST ${LOGIN_PATH}`, function () {
                     password: password
                 };
 
-                supertest(app).post(LOGIN_PATH)
+                supertest.post(LOGIN_PATH)
                     .send(body)
                     .expect(200)
                     .end((error: any, response: any) => {
@@ -114,10 +114,10 @@ describe(`POST ${LOGIN_PATH}`, function () {
     });
 });
 
-
-describe('GET /api/auth/secret', function () {
+const SECRET_PATH = '/api/auth/secret';
+describe(`GET ${SECRET_PATH}`, function () {
     it('should return 401 when invalid JWT is passed in the request', function (done) {
-        supertest(app).get('/api/auth/secret')
+        supertest.get(SECRET_PATH)
             .expect(HttpStatus.UNAUTHORIZED)
             .end((error: any) => {
                 if (error) {
@@ -126,5 +126,42 @@ describe('GET /api/auth/secret', function () {
 
                 done();
             });
+    });
+
+    it('should return 200 when valid JWT is passed in the request', function (done) {
+        const email = chance.email();
+        const password = 'password';
+
+        insertUser(email, password)
+            .then(() => {
+                const body = {
+                    email: email,
+                    password: password
+                };
+
+                supertest.post(LOGIN_PATH)
+                    .send(body)
+                    .expect(200)
+                    .end((error: any, response: any) => {
+                        if (error) {
+                            done.fail(error);
+                        }
+
+                        const token = response.body.token;
+
+                        supertest.get(SECRET_PATH)
+                            .set('Authorization', 'Bearer ' + token)
+                            .expect(200)
+                            .end((error: any, response: any) => {
+                                if (error) {
+                                    done.fail(error);
+                                }
+
+                                expect(response.body.success).toBe(true);
+                                done();
+                            });
+                    });
+            })
+            .catch(() => done.fail());
     });
 });

@@ -23,3 +23,7 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
         return response.send({ token });
     })(request, response, next);
 };
+
+export let secret = (request: Request, response: Response) => {
+    return response.send({ success: true } );
+};

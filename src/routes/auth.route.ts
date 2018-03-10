@@ -11,6 +11,6 @@ router.route('/login')
     .post(requestValidator(ParamValidation.login), authController.login);
 
 router.route('/secret')
-    .get(expressJwt({ secret: config.jwtSecret}));
+    .get(expressJwt({ secret: config.jwtSecret}), authController.secret);
 
 export default router;
