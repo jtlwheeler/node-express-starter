@@ -7,7 +7,7 @@ import * as app from '../../src/app';
 const chance = new Chance();
 
 describe('GET /api/auth/login', function () {
-    it('should return 200 when valid username and password are passed', function (done) {
+    it('should return 200 when valid email and password are passed', function (done) {
         const email = chance.email();
         const password = chance.string();
         const body = {
@@ -33,5 +33,18 @@ describe('GET /api/auth/login', function () {
                     done();
                 });
         });
+    });
+
+    it('should return 400 when email and password are missing', function (done) {
+        supertest(app).post('/api/auth/login')
+            .expect(HttpStatus.BAD_REQUEST)
+            .end((error: any, response: any) => {
+                if (error) {
+                    done.fail(error);
+                }
+
+                expect(response.body.errors).toBeTruthy();
+                done();
+            });
     });
 });
