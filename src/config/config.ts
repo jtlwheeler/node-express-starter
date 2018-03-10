@@ -12,7 +12,8 @@ const environmentSchema = Joi.object({
         .default('development'),
     SERVER_PORT: Joi.number()
         .default(3000),
-    MONGO_URI: Joi.string().required()
+    MONGO_URI: Joi.string().required(),
+    JWT_SECRET: Joi.string().required()
 }).unknown()
   .required();
 
@@ -24,7 +25,8 @@ if (error) {
 const config = {
   env: envVars.NODE_ENV,
   port: envVars.SERVER_PORT,
-  mongoUri: envVars.MONGO_URI
+  mongoUri: envVars.MONGO_URI,
+  jwtSecret: envVars.JWT_SECRET
 };
 
 export default config;

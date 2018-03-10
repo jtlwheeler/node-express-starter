@@ -4,6 +4,8 @@ import * as passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
 import { NextFunction } from 'express-serve-static-core';
 import * as HttpStatus from 'http-status-codes';
+import * as jwt from 'jsonwebtoken';
+import config from '../config/config';
 
 export let login = (request: Request, response: Response, next: NextFunction) => {
     passport.authenticate('local', (error: Error, user: UserModel, info: IVerifyOptions) => {
@@ -16,6 +18,8 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
             return response.send({ errors: info.message });
         }
 
-        return response.send();
+        const token = jwt.sign({ email: request.body.email },
+            config.jwtSecret);
+        return response.send({ token });
     })(request, response, next);
 };
