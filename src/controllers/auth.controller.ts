@@ -22,7 +22,7 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
             email: request.body.email,
         },
             config.jwtSecret,
-            { expiresIn: '30d'});
+            { expiresIn: '30d' });
         return response.send({ token });
     })(request, response, next);
 };
