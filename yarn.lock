@@ -37,9 +37,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.1.0.tgz#93b1be91f63c184450385272c47b6496fd028e02"
 
-"@types/express-jwt@^0.0.38":
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/@types/express-jwt/-/express-jwt-0.0.38.tgz#64b90b917299d99d3558d15e912ed22af0b48e6d"
+"@types/express-jwt@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/express-jwt/-/express-jwt-0.0.33.tgz#ca60168ebe331ef3a32d81fd6f111b3200aa4f8d"
   dependencies:
     "@types/express" "*"
     "@types/express-unless" "*"
