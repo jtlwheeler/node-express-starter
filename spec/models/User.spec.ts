@@ -9,7 +9,7 @@ const chance = new Chance();
 describe('User model', function () {
     beforeEach(function () {
         this.email = chance.email();
-        this.password = chance.string();
+        this.password = 'password';
 
         this.newUser = new User({
             email: this.email,
