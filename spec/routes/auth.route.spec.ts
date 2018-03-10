@@ -10,7 +10,7 @@ const chance = new Chance();
 
 const LOGIN_PATH = '/api/auth/login';
 
-describe(`GET ${LOGIN_PATH}`, function () {
+describe(`POST ${LOGIN_PATH}`, function () {
     it('should return 200 when valid email and password are passed', function (done) {
         const email = chance.email();
         const password = 'password';
@@ -100,7 +100,7 @@ describe(`GET ${LOGIN_PATH}`, function () {
                         }
 
                         expect(response.body.token).toBeTruthy();
-                        const decodedJwt: any = jwt.decode(response.body.token, { complete: true} );
+                        const decodedJwt: any = jwt.decode(response.body.token, { complete: true });
                         expect(decodedJwt).toBeTruthy();
                         expect(decodedJwt.header.alg).toBeTruthy('HS256');
                         expect(decodedJwt.header.typ).toBeTruthy('JWT');
@@ -110,6 +110,21 @@ describe(`GET ${LOGIN_PATH}`, function () {
 
                         done();
                     });
+            });
+    });
+});
+
+
+describe('GET /api/auth/secret', function () {
+    it('should return 401 when invalid JWT is passed in the request', function (done) {
+        supertest(app).get('/api/auth/secret')
+            .expect(HttpStatus.UNAUTHORIZED)
+            .end((error: any) => {
+                if (error) {
+                    done.fail(error);
+                }
+
+                done();
             });
     });
 });
