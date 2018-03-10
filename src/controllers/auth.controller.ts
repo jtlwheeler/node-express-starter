@@ -18,12 +18,15 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
             return response.send({ errors: info.message });
         }
 
-        const token = jwt.sign({ email: request.body.email },
-            config.jwtSecret);
+        const token = jwt.sign({
+            email: request.body.email,
+        },
+            config.jwtSecret,
+            { expiresIn: '30d'});
         return response.send({ token });
     })(request, response, next);
 };
 
 export let secret = (request: Request, response: Response) => {
-    return response.send({ success: true } );
+    return response.send({ success: true });
 };

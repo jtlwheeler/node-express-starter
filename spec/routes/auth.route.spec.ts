@@ -107,6 +107,7 @@ describe(`POST ${LOGIN_PATH}`, function () {
                         expect(decodedJwt.payload).toBeTruthy();
                         expect(decodedJwt.payload.email).toBe(email);
                         expect(decodedJwt.payload.iat).toBeTruthy();
+                        expect(decodedJwt.payload.exp).toBeTruthy();
 
                         done();
                     });
