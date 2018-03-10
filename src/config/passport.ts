@@ -6,22 +6,22 @@ import config from './config';
 const LocalStrategy = passportLocal.Strategy;
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, (email: string, password: string, done: Function) => {
-    User.findOne({ email: email }, (err: any, user: any) => {
-        if (err) {
-            return done(err);
+    User.findOne({ email: email }, (error: any, user: any) => {
+        if (error) {
+            return done(error);
         }
 
         if (!user) {
-            return done(undefined, false, { message: 'Email is not found.' });
+            return done(undefined, false, { message: `Email ${email} is not found.` });
         }
 
-        user.comparePassword(password, (err: any, isMatch: boolean) => {
-            if (err) {
-                return done(err);
+        user.comparePassword(password, (error: any, isMatch: boolean) => {
+            if (error) {
+                return done(error);
             }
 
             if (!isMatch) {
-                return done(undefined, false);
+                return done(undefined, false, { message: 'Invalid email or password.' });
             }
 
             return done(undefined, user);
