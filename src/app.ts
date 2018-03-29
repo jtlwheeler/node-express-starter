@@ -5,12 +5,14 @@ import routes from './routes/index.route';
 import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as bluebird from 'bluebird';
+import * as cors from 'cors';
 const passportConfig = require('./config/passport');
 
 (<any>mongoose).Promise = bluebird;
 mongoose.connect(config.mongoUri);
 
 const app = express();
+app.use(cors());
 app.set('port', config.port);
 if (config.env == 'production') {
     app.use(morgan('combined'));
