@@ -7,9 +7,9 @@ import NavigationMenu from './components/navigation-menu/NavigationMenu';
 configure({ adapter: new Adapter() });
 
 describe('<App />', function () {
-  it('should render <NavigationMenu /> component', function () {
-    const wrapper = shallow(<App />);
+    it('should render <NavigationMenu /> component', function () {
+        const wrapper = shallow(<App />);
 
-    expect(wrapper.find(NavigationMenu).length).toBe(1);
-  });
+        expect(wrapper.find(NavigationMenu).length).toBe(1);
+    });
 });
