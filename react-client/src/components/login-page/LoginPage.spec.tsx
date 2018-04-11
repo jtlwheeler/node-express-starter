@@ -10,7 +10,7 @@ configure({ adapter: new Adapter() });
 describe('<LoginPage /> ', function () {
     it('should render page', function () {
         const wrapper = shallow(<LoginPage />);
-        expect(wrapper.find('.submit-button').length).toBe(1);
+        expect(wrapper.find('.login-page-form').length).toBe(1);
     });
 
     it('should use auth service to login when submit button is clicked', function () {
@@ -25,7 +25,7 @@ describe('<LoginPage /> ', function () {
             password: password
         });
 
-        wrapper.find('.submit-button').simulate('click', {
+        wrapper.find('.login-page-form').simulate('submit', {
             preventDefault() {
                 // no-op
             }
@@ -57,6 +57,5 @@ describe('<LoginPage /> ', function () {
         expect(wrapper.find('.login-page-form').length).toBe(1);        
         sinon.assert.calledWith(authServiceStub, email, password);
         authServiceStub.restore();
-        
     });
 });

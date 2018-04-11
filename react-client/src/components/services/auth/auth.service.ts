@@ -1,8 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-
-export interface Token {
-    token: string;
-}
+import Token from './Token';
 
 class AuthService {
 

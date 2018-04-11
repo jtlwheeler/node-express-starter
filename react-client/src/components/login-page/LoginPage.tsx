@@ -61,7 +61,6 @@ export default class LoginPage extends React.Component<any, State> {
                     <Button
                         type="submit"
                         className="submit-button btn btn-primary"
-                        onClick={this.submit}
                     >
                         Sign in
                     </Button>
