@@ -16,8 +16,10 @@ describe('auth service', function () {
         const token = await authService.login('email@email.com', 'myPassword');
 
         expect(token).toBe('someToken');
+        sinon.assert.calledWith(axiosStub,
+            sinon.match({ data: { email: 'email@email.com', password: 'myPassword' } }));
 
-        axiosStub.restore();        
+        axiosStub.restore();
         done();
     });
 });

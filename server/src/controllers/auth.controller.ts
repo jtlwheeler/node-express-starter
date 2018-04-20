@@ -15,7 +15,7 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
 
         if (!user) {
             response.statusCode = 400;
-            return response.send({ errors: info.message });
+            return response.send({ errors: [ { message: info.message } ] });
         }
 
         const token = jwt.sign({

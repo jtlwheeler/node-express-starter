@@ -31,7 +31,7 @@ describe('<LoginPage /> ', function () {
             }
         });
 
-        expect(wrapper.find('.submit-button').length).toBe(1);        
+        expect(wrapper.find('.submit-button').length).toBe(1);
         sinon.assert.calledWith(authServiceStub, email, password);
         authServiceStub.restore();
     });
@@ -54,8 +54,45 @@ describe('<LoginPage /> ', function () {
             }
         });
 
-        expect(wrapper.find('.login-page-form').length).toBe(1);        
+        expect(wrapper.find('.login-page-form').length).toBe(1);
         sinon.assert.calledWith(authServiceStub, email, password);
         authServiceStub.restore();
+    });
+
+    it('should display error when an error occurs on login', function (done: jest.DoneCallback) {
+        const authServiceStub = sinon.stub(authService, 'login');
+        authServiceStub.rejects({
+            response: {
+                data: {
+                    errors: [
+                        { message: '\"email\" is required' },
+                        { message: '\"password\" is required' }
+                    ]
+                }
+            }
+        });
+
+        const wrapper = shallow(<LoginPage />);
+        wrapper.setState({
+            email: 'email@email.com',
+            password: 'password'
+        });
+
+        wrapper.find('.login-page-form').simulate('submit', {
+            preventDefault() {
+                // no-op
+            }
+        });
+
+        setTimeout(() => {
+            wrapper.update();
+            expect(wrapper.find('.error-display').length).toBe(1);
+            expect(wrapper.state().error).toEqual([
+                '\"email\" is required',
+                '\"password\" is required'
+            ]
+            );
+            done();
+        }, 2000);
     });
 });
