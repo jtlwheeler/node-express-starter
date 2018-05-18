@@ -1,11 +1,22 @@
 import * as React from 'react';
-import { shallow, configure } from 'enzyme';
+import { shallow, configure, ShallowWrapper } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import LoginPage from './LoginPage';
 import authService from '../services/auth/auth.service';
 import * as sinon from 'sinon';
 
 configure({ adapter: new Adapter() });
+
+function getInputBySelector(wrapper: ShallowWrapper, selector: string) {
+    let findResult = wrapper.update().find(selector);
+    expect(findResult.length).toBe(1);
+    return findResult.first();
+}
+
+function setInputValue(input: any, value: string) {
+    input.value = value;
+    input.simulate('change', { target: input });
+}
 
 describe('<LoginPage /> ', function () {
     it('should render page', function () {
@@ -20,16 +31,14 @@ describe('<LoginPage /> ', function () {
         const wrapper = shallow(<LoginPage />);
         const email = 'email@email.com';
         const password = 'somePassword';
-        wrapper.setState({
-            email: email,
-            password: password
-        });
 
-        wrapper.find('.login-page-form').simulate('submit', {
-            preventDefault() {
-                // no-op
-            }
-        });
+        const emailInput = getInputBySelector(wrapper, '.email');
+        setInputValue(emailInput, email);
+
+        const paswordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(paswordInput, password);
+
+        submitLoginButtonForm(wrapper);
 
         expect(wrapper.find('.submit-button').length).toBe(1);
         sinon.assert.calledWith(authServiceStub, email, password);
@@ -43,16 +52,13 @@ describe('<LoginPage /> ', function () {
         const wrapper = shallow(<LoginPage />);
         const email = 'email@email.com';
         const password = 'somePassword';
-        wrapper.setState({
-            email: email,
-            password: password
-        });
 
-        wrapper.find('.login-page-form').simulate('submit', {
-            preventDefault() {
-                // no-op
-            }
-        });
+        const emailInput = getInputBySelector(wrapper, '.email');
+        setInputValue(emailInput, email);
+
+        const paswordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(paswordInput, password);
+        submitLoginButtonForm(wrapper);
 
         expect(wrapper.find('.login-page-form').length).toBe(1);
         sinon.assert.calledWith(authServiceStub, email, password);
@@ -73,16 +79,14 @@ describe('<LoginPage /> ', function () {
         });
 
         const wrapper = shallow(<LoginPage />);
-        wrapper.setState({
-            email: 'email@email.com',
-            password: 'password'
-        });
 
-        wrapper.find('.login-page-form').simulate('submit', {
-            preventDefault() {
-                // no-op
-            }
-        });
+        const emailInput = getInputBySelector(wrapper, '.email');
+        setInputValue(emailInput, 'email@email.com');
+
+        const paswordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(paswordInput, 'password');
+
+        submitLoginButtonForm(wrapper);
 
         setTimeout(() => {
             wrapper.update();
@@ -96,3 +100,11 @@ describe('<LoginPage /> ', function () {
         }, 2000);
     });
 });
+
+function submitLoginButtonForm(wrapper: ShallowWrapper<any, any>) {
+    wrapper.find('.login-page-form').simulate('submit', {
+        preventDefault() {
+            // no-op
+        }
+    });
+}

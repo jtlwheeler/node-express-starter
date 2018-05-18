@@ -19,7 +19,6 @@ export default class LoginPage extends React.Component<any, State> {
             error: ''
         };
 
-        this.handleChange = this.handleChange.bind(this);
         this.submit = this.submit.bind(this);
     }
 
@@ -40,16 +39,6 @@ export default class LoginPage extends React.Component<any, State> {
         }
     }
 
-    handleChange(event: any) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
     render() {
         return (
             <Form className="login-page-form" onSubmit={this.submit}>
@@ -61,20 +50,22 @@ export default class LoginPage extends React.Component<any, State> {
                     controlId="formBasicText"
                 >
                     <FormControl
+                        className="email"
                         type="text"
                         placeholder="Email"
                         name="email"
-                        onChange={this.handleChange}
+                        onChange={(event: any) => { this.setState({ email: event.target.value }); }}
                         required
                     />
                 </FormGroup>
 
                 <FormGroup>
                     <FormControl
+                        className="password"
                         type="password"
                         placeholder="Password"
                         name="password"
-                        onChange={this.handleChange}
+                        onChange={(event: any) => { this.setState({ password: event.target.value }); }}
                         required
                     />
                 </FormGroup>
