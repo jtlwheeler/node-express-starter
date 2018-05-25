@@ -19,6 +19,7 @@ function setInputValue(input: any, value: string) {
 }
 
 describe('<LoginPage /> ', function () {
+
     it('should render page', function () {
         const wrapper = shallow(<LoginPage />);
         expect(wrapper.find('.login-page-form').length).toBe(1);
@@ -35,8 +36,8 @@ describe('<LoginPage /> ', function () {
         const emailInput = getInputBySelector(wrapper, '.email');
         setInputValue(emailInput, email);
 
-        const paswordInput = getInputBySelector(wrapper, '.password');
-        setInputValue(paswordInput, password);
+        const passwordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(passwordInput, password);
 
         submitLoginButtonForm(wrapper);
 
@@ -56,8 +57,8 @@ describe('<LoginPage /> ', function () {
         const emailInput = getInputBySelector(wrapper, '.email');
         setInputValue(emailInput, email);
 
-        const paswordInput = getInputBySelector(wrapper, '.password');
-        setInputValue(paswordInput, password);
+        const passwordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(passwordInput, password);
         submitLoginButtonForm(wrapper);
 
         expect(wrapper.find('.login-page-form').length).toBe(1);
@@ -96,8 +97,40 @@ describe('<LoginPage /> ', function () {
                 '\"password\" is required'
             ]
             );
+            authServiceStub.restore();
             done();
         }, 2000);
+    });
+
+    it('should redirect to the profile page after successful login', function (done: jest.DoneCallback) {
+        const historySpy = sinon.spy();
+        const authServiceStub = sinon.stub(authService, 'login')
+            .resolves('someToken');
+        
+        const history = {
+            push: historySpy
+        };
+
+        const wrapper = shallow(<LoginPage history={history} />);
+        const email = 'email@email.com';
+        const password = 'somePassword';
+
+        const emailInput = getInputBySelector(wrapper, '.email');
+        setInputValue(emailInput, email);
+
+        const passwordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(passwordInput, password);
+
+        submitLoginButtonForm(wrapper);
+
+        expect(wrapper.find('.submit-button').length).toBe(1);
+        expect(authServiceStub.calledWith(email, password)).toBe(true);
+        setTimeout(() => {
+           expect(historySpy.called).toBe(true); 
+           authServiceStub.restore();
+           done();
+        }, 1000);
+        
     });
 });
 

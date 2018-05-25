@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Button, Form, FormControl, FormGroup, Alert } from 'react-bootstrap';
 import authService from '../services/auth/auth.service';
 
-interface State {
+type State = {
     email: string;
     password: string;
     error: string;
-}
+};
 
 export default class LoginPage extends React.Component<any, State> {
 
@@ -27,9 +27,9 @@ export default class LoginPage extends React.Component<any, State> {
 
         try {
             await authService.login(this.state.email, this.state.password);
-            // this.props.history.push('/');
+            this.props.history.push('/profile');
         } catch (error) {
-
+            
             if (error.response && error.response.data && error.response.data.errors) {
                 const errors = error.response.data.errors.map((error: any) => error.message);
                 this.setState({ error: errors });
