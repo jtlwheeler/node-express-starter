@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Form, FormControl, FormGroup, Alert } from 'react-bootstrap';
-import authService from '../services/auth/auth.service';
+import authService from '../../services/auth/auth.service';
 
 type State = {
     email: string;

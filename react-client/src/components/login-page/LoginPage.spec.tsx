@@ -2,7 +2,7 @@ import * as React from 'react';
 import { shallow, configure, ShallowWrapper } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import LoginPage from './LoginPage';
-import authService from '../services/auth/auth.service';
+import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
 
 configure({ adapter: new Adapter() });
