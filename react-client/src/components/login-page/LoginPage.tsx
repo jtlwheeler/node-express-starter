@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Button, Form, FormControl, FormGroup, Alert } from 'react-bootstrap';
 import authService from '../../services/auth/auth.service';
 
 type State = {
@@ -29,7 +28,7 @@ export default class LoginPage extends React.Component<any, State> {
             await authService.login(this.state.email, this.state.password);
             this.props.history.push('/profile');
         } catch (error) {
-            
+
             if (error.response && error.response.data && error.response.data.errors) {
                 const errors = error.response.data.errors.map((error: any) => error.message);
                 this.setState({ error: errors });
@@ -41,44 +40,43 @@ export default class LoginPage extends React.Component<any, State> {
 
     render() {
         return (
-            <Form className="login-page-form" onSubmit={this.submit}>
+            <form className="login-page-form" onSubmit={this.submit}>
                 <h1>Log In</h1>
                 {this.state.error &&
-                    <Alert className="error-display">{this.state.error}</Alert>
+                    <div className="alert alert-danger">{this.state.error}</div>
                 }
-                <FormGroup
-                    controlId="formBasicText"
-                >
-                    <FormControl
-                        className="email"
-                        type="text"
+
+                <div className="form-group">
+                    <input
+                        className="email form-control"
+                        type="email"
                         placeholder="Email"
                         name="email"
                         onChange={(event: any) => { this.setState({ email: event.target.value }); }}
                         required
                     />
-                </FormGroup>
+                </div>
 
-                <FormGroup>
-                    <FormControl
-                        className="password"
+                <div className="form-group">
+                    <input
+                        className="password form-control"
                         type="password"
                         placeholder="Password"
                         name="password"
                         onChange={(event: any) => { this.setState({ password: event.target.value }); }}
                         required
                     />
-                </FormGroup>
+                </div>
 
-                <FormGroup>
-                    <Button
+                <div className="form-group">
+                    <button
                         type="submit"
                         className="submit-button btn btn-primary"
                     >
                         Sign in
-                    </Button>
-                </FormGroup>
-            </Form>
+                    </button>
+                </div>
+            </form>
         );
     }
 }
