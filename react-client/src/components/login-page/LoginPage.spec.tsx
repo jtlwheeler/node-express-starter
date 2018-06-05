@@ -91,7 +91,7 @@ describe('<LoginPage /> ', function () {
 
         setTimeout(() => {
             wrapper.update();
-            expect(wrapper.find('.error-display').length).toBe(1);
+            expect(wrapper.find('.error-message').length).toBe(1);
             expect(wrapper.state().error).toEqual([
                 '\"email\" is required',
                 '\"password\" is required'

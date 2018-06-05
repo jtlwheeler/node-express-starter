@@ -43,7 +43,7 @@ export default class LoginPage extends React.Component<any, State> {
             <form className="login-page-form" onSubmit={this.submit}>
                 <h1>Log In</h1>
                 {this.state.error &&
-                    <div className="alert alert-danger">{this.state.error}</div>
+                    <div className="error-message alert alert-danger">{this.state.error}</div>
                 }
 
                 <div className="form-group">
