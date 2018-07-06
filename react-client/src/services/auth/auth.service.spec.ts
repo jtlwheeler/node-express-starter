@@ -53,5 +53,37 @@ describe('auth service', function () {
                 sinon.match({ data: registerUserRequest }));
             axiosStub.restore();
         });
+
+        it('should throw exception with errors when a bad request is sent', async function () {
+            const axiosStub = sinon.stub(axios, 'request');
+            const response: AxiosResponse<any> = {
+                data: {
+                    errors: [
+                        { message: 'You sent bad stuff' }
+                    ]
+                },
+                status: 400,
+                statusText: '',
+                headers: {},
+                config: {}
+            };
+
+            axiosStub.rejects(response);
+
+            const registerUserRequest = {
+                username: 'someUsername',
+                password: 'somePassword',
+                confirmPassword: 'somePassword'
+            };
+
+            try {
+                await authService.registerUser(registerUserRequest);
+                fail('This should have thrown an error');
+            } catch (error) {
+                expect(error.data.errors[0].message).toBe('You sent bad stuff');
+            }
+
+            axiosStub.restore();
+        });
     });
 });

@@ -26,13 +26,17 @@ class AuthService {
         this.config.url = '/api/user/signUp/';
         this.config.method = 'post';
         this.config.data = registerUserRequest;
-        const response = await axios.request(this.config);
 
-        if (response.status === HttpStatus.OK) {
-            return true;
+        try {
+            const response = await axios.request(this.config);
+            if (response.status === HttpStatus.OK) {
+                return true;
+            }
+
+            return false;
+        } catch (error) {
+            throw error;
         }
-
-        return false;
     }
 }
 
