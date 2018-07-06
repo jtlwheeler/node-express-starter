@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Token from './Token';
+import * as HttpStatus from 'http-status';
 
 class AuthService {
 
@@ -19,6 +20,19 @@ class AuthService {
         const token = response.data.token;
 
         return token;
+    }
+
+    public async registerUser(registerUserRequest: any): Promise<Boolean> {
+        this.config.url = '/api/user/signUp/';
+        this.config.method = 'post';
+        this.config.data = registerUserRequest;
+        const response = await axios.request(this.config);
+
+        if (response.status === HttpStatus.OK) {
+            return true;
+        }
+
+        return false;
     }
 }
 
