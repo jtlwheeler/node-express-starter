@@ -4,19 +4,9 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import LoginPage from './LoginPage';
 import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
+import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpers/wrapper.helper';
 
 configure({ adapter: new Adapter() });
-
-function getInputBySelector(wrapper: ShallowWrapper, selector: string) {
-    let findResult = wrapper.update().find(selector);
-    expect(findResult.length).toBe(1);
-    return findResult.first();
-}
-
-function setInputValue(input: any, value: string) {
-    input.value = value;
-    input.simulate('change', { target: input });
-}
 
 describe('<LoginPage /> ', function () {
 
@@ -39,7 +29,7 @@ describe('<LoginPage /> ', function () {
         const passwordInput = getInputBySelector(wrapper, '.password');
         setInputValue(passwordInput, password);
 
-        submitLoginButtonForm(wrapper);
+        simulateSubmit(wrapper, '.login-page-form');
 
         expect(wrapper.find('.submit-button').length).toBe(1);
         sinon.assert.calledWith(authServiceStub, email, password);
@@ -59,7 +49,7 @@ describe('<LoginPage /> ', function () {
 
         const passwordInput = getInputBySelector(wrapper, '.password');
         setInputValue(passwordInput, password);
-        submitLoginButtonForm(wrapper);
+        simulateSubmit(wrapper, '.login-page-form');
 
         expect(wrapper.find('.login-page-form').length).toBe(1);
         sinon.assert.calledWith(authServiceStub, email, password);
@@ -87,7 +77,7 @@ describe('<LoginPage /> ', function () {
         const paswordInput = getInputBySelector(wrapper, '.password');
         setInputValue(paswordInput, 'password');
 
-        submitLoginButtonForm(wrapper);
+        simulateSubmit(wrapper, '.login-page-form');
 
         setTimeout(() => {
             wrapper.update();
@@ -106,7 +96,7 @@ describe('<LoginPage /> ', function () {
         const historySpy = sinon.spy();
         const authServiceStub = sinon.stub(authService, 'login')
             .resolves('someToken');
-        
+
         const history = {
             push: historySpy
         };
@@ -121,23 +111,15 @@ describe('<LoginPage /> ', function () {
         const passwordInput = getInputBySelector(wrapper, '.password');
         setInputValue(passwordInput, password);
 
-        submitLoginButtonForm(wrapper);
+        simulateSubmit(wrapper, '.login-page-form');
 
         expect(wrapper.find('.submit-button').length).toBe(1);
         expect(authServiceStub.calledWith(email, password)).toBe(true);
         setTimeout(() => {
-           expect(historySpy.called).toBe(true); 
-           authServiceStub.restore();
-           done();
+            expect(historySpy.called).toBe(true);
+            authServiceStub.restore();
+            done();
         }, 1000);
-        
+
     });
 });
-
-function submitLoginButtonForm(wrapper: ShallowWrapper<any, any>) {
-    wrapper.find('.login-page-form').simulate('submit', {
-        preventDefault() {
-            // no-op
-        }
-    });
-}

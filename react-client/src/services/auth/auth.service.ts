@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import Token from './Token';
 import * as HttpStatus from 'http-status';
 
-class AuthService {
+export class AuthService {
 
     private config: AxiosRequestConfig = {
         baseURL: 'http://localhost:3001'
