@@ -22,6 +22,7 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
         return (
             <div>
                 <form className="registration-form" onSubmit={this.submit}>
+                    <h1>Sign Up</h1>
 
                     <div className="form-group">
                         <input
@@ -61,7 +62,7 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                             type="submit"
                             className="submit-button btn btn-primary"
                         >
-                            Sign in
+                            Sign up
                         </button>
                     </div>
                 </form>
@@ -69,7 +70,9 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
         );
     }
 
-    private async submit() {
+    private async submit(event: any) {
+        event.preventDefault();
+
         await authService.registerUser({
             email: this.state.email,
             password: this.state.password,

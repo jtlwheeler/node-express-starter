@@ -21,23 +21,6 @@ export default class LoginPage extends React.Component<any, State> {
         this.submit = this.submit.bind(this);
     }
 
-    async submit(event: any) {
-        event.preventDefault();
-
-        try {
-            await authService.login(this.state.email, this.state.password);
-            this.props.history.push('/profile');
-        } catch (error) {
-
-            if (error.response && error.response.data && error.response.data.errors) {
-                const errors = error.response.data.errors.map((error: any) => error.message);
-                this.setState({ error: errors });
-            } else {
-                this.setState({ error: error.toString() });
-            }
-        }
-    }
-
     render() {
         return (
             <form className="login-page-form" onSubmit={this.submit}>
@@ -78,5 +61,22 @@ export default class LoginPage extends React.Component<any, State> {
                 </div>
             </form>
         );
+    }
+
+    private async submit(event: any) {
+        event.preventDefault();
+
+        try {
+            await authService.login(this.state.email, this.state.password);
+            this.props.history.push('/profile');
+        } catch (error) {
+
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors.map((error: any) => error.message);
+                this.setState({ error: errors });
+            } else {
+                this.setState({ error: error.toString() });
+            }
+        }
     }
 }
