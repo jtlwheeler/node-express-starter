@@ -77,4 +77,35 @@ describe('<Registration />', function () {
 
         authServiceStub.restore();
     });
+
+    it('should redirect to profile page after user signs up', function (done: jest.DoneCallback) {
+        const historySpy = sinon.spy();
+
+        const history = {
+            push: historySpy
+        };
+        const authServiceStub = sinon.stub(authService, 'registerUser')
+            .returns(true);
+
+        const wrapper = shallow(<RegistrationPage history={history} />);
+
+        const email = 'myEmailAddress@email.com';
+        const emailTextField = getInputBySelector(wrapper, '.email');
+        setInputValue(emailTextField, email);
+
+        const password = 'myPassword';
+        const passwordTextField = getInputBySelector(wrapper, '.password');
+        setInputValue(passwordTextField, password);
+
+        const confirmPasswordTextField = getInputBySelector(wrapper, '.confirm-password');
+        setInputValue(confirmPasswordTextField, password);
+
+        simulateSubmit(wrapper, '.registration-form');
+
+        setTimeout(() => {
+            expect(historySpy.called).toBe(true);
+            authServiceStub.restore();
+            done();
+        }, 0);
+    });
 });
