@@ -5,6 +5,7 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpers/wrapper.helper';
 import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
+import { waitUntil } from '../test-helpers/waitUntil.helper';
 
 configure({ adapter: new Adapter() });
 
@@ -38,7 +39,7 @@ describe('<Registration />', function () {
         authServiceStub.restore();
     });
 
-    it('should display error message when error occurs making request', function (done: jest.DoneCallback) {
+    it('should display error message when error occurs making request', async function () {
         const authServiceStub = sinon.stub(authService, 'registerUser')
             .rejects({
                 response: {
@@ -67,14 +68,13 @@ describe('<Registration />', function () {
         simulateSubmit(wrapper, '.registration-form');
         wrapper.update();
 
-        setTimeout(() => {
-            wrapper.update();
-            expect(wrapper.find('.error-message').length).toBe(1);
-            expect(wrapper.find('.error-message').text()).toContain('This was a bad thing');
-            expect(wrapper.find('.error-message').text()).toContain('Another error');
-          
-            authServiceStub.restore();
-            done();
-        }, 2000);
+        await waitUntil(() => wrapper.update().find('.error-message').length === 1,
+            100,
+            'Error message never appeared');
+
+        expect(wrapper.find('.error-message').text()).toContain('This was a bad thing');
+        expect(wrapper.find('.error-message').text()).toContain('Another error');
+
+        authServiceStub.restore();
     });
 });

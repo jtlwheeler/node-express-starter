@@ -5,6 +5,7 @@ import LoginPage from './LoginPage';
 import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
 import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpers/wrapper.helper';
+import { waitUntil } from '../test-helpers/waitUntil.helper';
 
 configure({ adapter: new Adapter() });
 
@@ -56,7 +57,7 @@ describe('<LoginPage /> ', function () {
         authServiceStub.restore();
     });
 
-    it('should display error when an error occurs on login', function (done: jest.DoneCallback) {
+    it('should display error when an error occurs on login', async function () {
         const authServiceStub = sinon.stub(authService, 'login');
         authServiceStub.rejects({
             response: {
@@ -79,17 +80,18 @@ describe('<LoginPage /> ', function () {
 
         simulateSubmit(wrapper, '.login-page-form');
 
-        setTimeout(() => {
-            wrapper.update();
-            expect(wrapper.find('.error-message').length).toBe(1);
-            expect(wrapper.state().error).toEqual([
-                '\"email\" is required',
-                '\"password\" is required'
-            ]
-            );
-            authServiceStub.restore();
-            done();
-        }, 2000);
+        await waitUntil(() => wrapper.update().find('.error-message').length === 1,
+            100,
+            'Error message never appeared');
+
+        expect(wrapper.find('.error-message').length).toBe(1);
+        expect(wrapper.state().error).toEqual([
+            '\"email\" is required',
+            '\"password\" is required'
+        ]
+        );
+        
+        authServiceStub.restore();
     });
 
     it('should redirect to the profile page after successful login', function (done: jest.DoneCallback) {
@@ -119,7 +121,6 @@ describe('<LoginPage /> ', function () {
             expect(historySpy.called).toBe(true);
             authServiceStub.restore();
             done();
-        }, 1000);
-
+        }, 0);
     });
 });

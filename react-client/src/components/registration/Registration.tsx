@@ -1,5 +1,6 @@
 import * as React from 'react';
 import authService from '../../services/auth/auth.service';
+import { responseErrorHandler } from '../shared/responseErrorHandler';
 
 export interface RegistrationPageProps {
 }
@@ -92,13 +93,7 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                 confirmPassword: this.state.confirmPassword
             });
         } catch (error) {
-            
-            if (error.response && error.response.data && error.response.data.errors) {
-                const errors = error.response.data.errors.map((error: any) => error.message);
-                this.setState({ error: errors });
-            } else {
-                this.setState({ error: error.toString() });
-            }
+            this.setState({ error: responseErrorHandler(error) });
         }
     }
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import authService from '../../services/auth/auth.service';
+import { responseErrorHandler } from '../shared/responseErrorHandler';
 
 type State = {
     email: string;
@@ -70,13 +71,7 @@ export default class LoginPage extends React.Component<any, State> {
             await authService.login(this.state.email, this.state.password);
             this.props.history.push('/profile');
         } catch (error) {
-
-            if (error.response && error.response.data && error.response.data.errors) {
-                const errors = error.response.data.errors.map((error: any) => error.message);
-                this.setState({ error: errors });
-            } else {
-                this.setState({ error: error.toString() });
-            }
+            this.setState({ error: responseErrorHandler(error) });
         }
     }
 }
