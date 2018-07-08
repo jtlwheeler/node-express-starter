@@ -8,12 +8,20 @@ interface State {
     email: string;
     password: string;
     confirmPassword: string;
+    error: string;
 }
 
 export default class RegistrationPage extends React.Component<RegistrationPageProps, State> {
 
     constructor(props: RegistrationPageProps) {
         super(props);
+
+        this.state = {
+            email: '',
+            password: '',
+            confirmPassword: '',
+            error: ''
+        };
 
         this.submit = this.submit.bind(this);
     }
@@ -23,6 +31,10 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
             <div>
                 <form className="registration-form" onSubmit={this.submit}>
                     <h1>Sign Up</h1>
+
+                    {this.state.error &&
+                        <div className="error-message alert alert-danger">{this.state.error}</div>
+                    }
 
                     <div className="form-group">
                         <input
@@ -73,10 +85,20 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
     private async submit(event: any) {
         event.preventDefault();
 
-        await authService.registerUser({
-            email: this.state.email,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword
-        });
+        try {
+            await authService.registerUser({
+                email: this.state.email,
+                password: this.state.password,
+                confirmPassword: this.state.confirmPassword
+            });
+        } catch (error) {
+            
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors.map((error: any) => error.message);
+                this.setState({ error: errors });
+            } else {
+                this.setState({ error: error.toString() });
+            }
+        }
     }
 }

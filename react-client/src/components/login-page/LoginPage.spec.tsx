@@ -37,8 +37,8 @@ describe('<LoginPage /> ', function () {
     });
 
     it('should use auth service to login when form is submitted', function () {
-        const authServiceStub = sinon.stub(authService, 'login');
-        authServiceStub.returns('someToken');
+        const authServiceStub = sinon.stub(authService, 'login')
+            .returns('someToken');
 
         const wrapper = shallow(<LoginPage />);
         const email = 'email@email.com';
