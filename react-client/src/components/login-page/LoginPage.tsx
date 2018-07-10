@@ -1,6 +1,11 @@
 import * as React from 'react';
 import authService from '../../services/auth/auth.service';
 import { responseErrorHandler } from '../shared/responseErrorHandler';
+import History from '../shared/History';
+
+export interface LoginPageProps {
+    history: History;
+}
 
 type State = {
     email: string;
@@ -8,9 +13,9 @@ type State = {
     error: string;
 };
 
-export default class LoginPage extends React.Component<any, State> {
+export default class LoginPage extends React.Component<LoginPageProps, State> {
 
-    constructor(props: any) {
+    constructor(props: LoginPageProps) {
         super(props);
 
         this.state = {

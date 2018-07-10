@@ -6,12 +6,19 @@ import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpe
 import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
 import { waitUntil } from '../test-helpers/waitUntil.helper';
+import History from '../shared/History';
 
 configure({ adapter: new Adapter() });
 
 describe('<Registration />', function () {
+
     it('should render registration form', function () {
-        const wrapper = shallow(<RegistrationPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+
+        const wrapper = shallow(<RegistrationPage history={history} />);
         expect(wrapper.find('.registration-form').length).toBe(1);
     });
 
@@ -19,7 +26,11 @@ describe('<Registration />', function () {
         const authServiceStub = sinon.stub(authService, 'registerUser')
             .returns(true);
 
-        const wrapper = shallow(<RegistrationPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+        const wrapper = shallow(<RegistrationPage history={history} />);
 
         const email = 'myEmailAddress@email.com';
         const emailTextField = getInputBySelector(wrapper, '.email');
@@ -52,7 +63,12 @@ describe('<Registration />', function () {
                 }
             });
 
-        const wrapper = shallow(<RegistrationPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+
+        const wrapper = shallow(<RegistrationPage history={history} />);
 
         const email = 'myEmailAddress@email.com';
         const emailTextField = getInputBySelector(wrapper, '.email');

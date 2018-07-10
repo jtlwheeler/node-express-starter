@@ -1,6 +1,11 @@
 import * as React from 'react';
 import authService from '../../services/auth/auth.service';
 import { responseErrorHandler } from '../shared/responseErrorHandler';
+import History from '../shared/History';
+
+export interface RegistrationPageProps {
+    history: History;
+}
 
 interface State {
     email: string;
@@ -9,9 +14,9 @@ interface State {
     error: string;
 }
 
-export default class RegistrationPage extends React.Component<any, State> {
+export default class RegistrationPage extends React.Component<RegistrationPageProps, State> {
 
-    constructor(props: any) {
+    constructor(props: RegistrationPageProps) {
         super(props);
 
         this.state = {

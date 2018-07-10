@@ -6,21 +6,31 @@ import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
 import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpers/wrapper.helper';
 import { waitUntil } from '../test-helpers/waitUntil.helper';
+import History from '../shared/History';
 
 configure({ adapter: new Adapter() });
 
 describe('<LoginPage /> ', function () {
 
     it('should render page', function () {
-        const wrapper = shallow(<LoginPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+        const wrapper = shallow(<LoginPage history={history} />);
         expect(wrapper.find('.login-page-form').length).toBe(1);
     });
 
     it('should use auth service to login when submit button is clicked', function () {
-        const authServiceStub = sinon.stub(authService, 'login');
-        authServiceStub.returns('someToken');
+        const authServiceStub = sinon.stub(authService, 'login')
+            .returns('someToken');
 
-        const wrapper = shallow(<LoginPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+
+        const wrapper = shallow(<LoginPage history={history} />);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -41,7 +51,12 @@ describe('<LoginPage /> ', function () {
         const authServiceStub = sinon.stub(authService, 'login')
             .returns('someToken');
 
-        const wrapper = shallow(<LoginPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+
+        const wrapper = shallow(<LoginPage history={history} />);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -70,7 +85,12 @@ describe('<LoginPage /> ', function () {
             }
         });
 
-        const wrapper = shallow(<LoginPage />);
+        const pushSpy = sinon.spy();
+        const history: History = {
+            push: pushSpy
+        };
+
+        const wrapper = shallow(<LoginPage history={history} />);
 
         const emailInput = getInputBySelector(wrapper, '.email');
         setInputValue(emailInput, 'email@email.com');
@@ -90,7 +110,7 @@ describe('<LoginPage /> ', function () {
             '\"password\" is required'
         ]
         );
-        
+
         authServiceStub.restore();
     });
 
