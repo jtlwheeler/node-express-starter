@@ -8,7 +8,7 @@ export let signUp = (request: Request, response: Response) => {
         password: request.body.password
     });
 
-    User.findOne({ email: request.body.email }, (err: any, existingUser: UserModel) => {
+    User.findOne({email: request.body.email}, (err: any, existingUser: UserModel) => {
         if (err) {
             response.statusCode = HttpStatus.BAD_REQUEST;
             return response.send();
@@ -16,7 +16,7 @@ export let signUp = (request: Request, response: Response) => {
 
         if (existingUser) {
             response.statusCode = HttpStatus.BAD_REQUEST;
-            return response.send({ errors: [{ message: 'User already exists' }] });
+            return response.send({errors: [{message: 'User already exists'}]});
         }
 
         user.save((err: any) => {

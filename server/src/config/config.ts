@@ -15,18 +15,18 @@ const environmentSchema = Joi.object({
     MONGO_URI: Joi.string().required(),
     JWT_SECRET: Joi.string().required()
 }).unknown()
-  .required();
+    .required();
 
-const { error, value: envVars } = Joi.validate(process.env, environmentSchema);
+const {error, value: envVars} = Joi.validate(process.env, environmentSchema);
 if (error) {
-  throw new Error(`Config validation error: ${error.message}`);
+    throw new Error(`Config validation error: ${error.message}`);
 }
 
 const config = {
-  env: envVars.NODE_ENV,
-  port: envVars.SERVER_PORT,
-  mongoUri: envVars.MONGO_URI,
-  jwtSecret: envVars.JWT_SECRET
+    env: envVars.NODE_ENV,
+    port: envVars.SERVER_PORT,
+    mongoUri: envVars.MONGO_URI,
+    jwtSecret: envVars.JWT_SECRET
 };
 
 export default config;

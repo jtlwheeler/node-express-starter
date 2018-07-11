@@ -6,6 +6,7 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as bluebird from 'bluebird';
 import * as cors from 'cors';
+
 const passportConfig = require('./config/passport');
 
 (<any>mongoose).Promise = bluebird;
@@ -18,7 +19,7 @@ if (config.env == 'production') {
     app.use(morgan('combined'));
 }
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api', routes);
 
 module.exports = app;

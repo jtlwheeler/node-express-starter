@@ -1,5 +1,4 @@
 import * as bcrypt from 'bcrypt-nodejs';
-import * as crypto from 'crypto';
 import * as mongoose from 'mongoose';
 
 export type UserModel = mongoose.Document & {
@@ -10,9 +9,9 @@ export type UserModel = mongoose.Document & {
 };
 
 const userSchema = new mongoose.Schema({
-    email: { type: String, unique: true },
+    email: {type: String, unique: true},
     password: String,
-}, { timestamps: true });
+}, {timestamps: true});
 
 userSchema.pre('save', function save(next) {
     const user = this;

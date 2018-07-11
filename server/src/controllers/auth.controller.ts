@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User, { UserModel } from '../models/User';
+import { UserModel } from '../models/User';
 import * as passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
 import { NextFunction } from 'express-serve-static-core';
