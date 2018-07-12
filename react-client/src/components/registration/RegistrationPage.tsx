@@ -36,7 +36,7 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                     <h1>Sign Up</h1>
 
                     {this.state.error &&
-                        <div className="error-message alert alert-danger">{this.state.error}</div>
+                    <div className="error-message alert alert-danger">{this.state.error}</div>
                     }
 
                     <div className="form-group">
@@ -45,7 +45,9 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                             type="email"
                             placeholder="Email"
                             name="email"
-                            onChange={(event: any) => { this.setState({ email: event.target.value }); }}
+                            onChange={(event: any) => {
+                                this.setState({email: event.target.value});
+                            }}
                             required
                         />
                     </div>
@@ -56,7 +58,9 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                             type="password"
                             placeholder="Password"
                             name="password"
-                            onChange={(event: any) => { this.setState({ password: event.target.value }); }}
+                            onChange={(event: any) => {
+                                this.setState({password: event.target.value});
+                            }}
                             required
                         />
                     </div>
@@ -67,7 +71,9 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                             type="password"
                             placeholder="Confirm Password"
                             name="confirmPassword"
-                            onChange={(event: any) => { this.setState({ confirmPassword: event.target.value }); }}
+                            onChange={(event: any) => {
+                                this.setState({confirmPassword: event.target.value});
+                            }}
                             required
                         />
                     </div>
@@ -96,7 +102,7 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
             });
             this.props.history.push('/profile');
         } catch (error) {
-            this.setState({ error: responseErrorHandler(error) });
+            this.setState({error: responseErrorHandler(error)});
         }
     }
 }

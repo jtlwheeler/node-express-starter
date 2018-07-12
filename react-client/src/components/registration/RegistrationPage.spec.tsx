@@ -1,14 +1,14 @@
-import { shallow, configure } from 'enzyme';
+import {shallow, configure} from 'enzyme';
 import * as React from 'react';
-import RegistrationPage from './Registration';
+import RegistrationPage from './RegistrationPage';
 import * as Adapter from 'enzyme-adapter-react-16';
-import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpers/wrapper.helper';
+import {getInputBySelector, setInputValue, simulateSubmit} from '../test-helpers/wrapper.helper';
 import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
-import { waitUntil } from '../test-helpers/waitUntil.helper';
+import {waitUntil} from '../test-helpers/waitUntil.helper';
 import History from '../shared/History';
 
-configure({ adapter: new Adapter() });
+configure({adapter: new Adapter()});
 
 describe('<Registration />', function () {
 
@@ -18,7 +18,7 @@ describe('<Registration />', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<RegistrationPage history={history} />);
+        const wrapper = shallow(<RegistrationPage history={history}/>);
         expect(wrapper.find('.registration-form').length).toBe(1);
     });
 
@@ -30,7 +30,7 @@ describe('<Registration />', function () {
         const history: History = {
             push: pushSpy
         };
-        const wrapper = shallow(<RegistrationPage history={history} />);
+        const wrapper = shallow(<RegistrationPage history={history}/>);
 
         const email = 'myEmailAddress@email.com';
         const emailTextField = getInputBySelector(wrapper, '.email');
@@ -45,7 +45,7 @@ describe('<Registration />', function () {
 
         simulateSubmit(wrapper, '.registration-form');
 
-        sinon.assert.calledWith(authServiceStub, { email, password, confirmPassword: password });
+        sinon.assert.calledWith(authServiceStub, {email, password, confirmPassword: password});
 
         authServiceStub.restore();
     });
@@ -56,8 +56,8 @@ describe('<Registration />', function () {
                 response: {
                     data: {
                         errors: [
-                            { message: 'This was a bad thing' },
-                            { message: 'Another error' }
+                            {message: 'This was a bad thing'},
+                            {message: 'Another error'}
                         ]
                     }
                 }
@@ -68,7 +68,7 @@ describe('<Registration />', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<RegistrationPage history={history} />);
+        const wrapper = shallow(<RegistrationPage history={history}/>);
 
         const email = 'myEmailAddress@email.com';
         const emailTextField = getInputBySelector(wrapper, '.email');
@@ -103,7 +103,7 @@ describe('<Registration />', function () {
         const authServiceStub = sinon.stub(authService, 'registerUser')
             .returns(true);
 
-        const wrapper = shallow(<RegistrationPage history={history} />);
+        const wrapper = shallow(<RegistrationPage history={history}/>);
 
         const email = 'myEmailAddress@email.com';
         const emailTextField = getInputBySelector(wrapper, '.email');
