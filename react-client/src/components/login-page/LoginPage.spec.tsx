@@ -8,7 +8,7 @@ import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpe
 import { waitUntil } from '../test-helpers/waitUntil.helper';
 import History from '../shared/History';
 
-configure({ adapter: new Adapter() });
+configure({adapter: new Adapter()});
 
 describe('<LoginPage /> ', function () {
 
@@ -17,7 +17,7 @@ describe('<LoginPage /> ', function () {
         const history: History = {
             push: pushSpy
         };
-        const wrapper = shallow(<LoginPage history={history} />);
+        const wrapper = shallow(<LoginPage history={history}/>);
         expect(wrapper.find('.login-page-form').length).toBe(1);
     });
 
@@ -30,7 +30,7 @@ describe('<LoginPage /> ', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<LoginPage history={history} />);
+        const wrapper = shallow(<LoginPage history={history}/>);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -56,7 +56,7 @@ describe('<LoginPage /> ', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<LoginPage history={history} />);
+        const wrapper = shallow(<LoginPage history={history}/>);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -78,8 +78,8 @@ describe('<LoginPage /> ', function () {
             response: {
                 data: {
                     errors: [
-                        { message: '\"email\" is required' },
-                        { message: '\"password\" is required' }
+                        {message: '\"email\" is required'},
+                        {message: '\"password\" is required'}
                     ]
                 }
             }
@@ -90,7 +90,7 @@ describe('<LoginPage /> ', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<LoginPage history={history} />);
+        const wrapper = shallow(<LoginPage history={history}/>);
 
         const emailInput = getInputBySelector(wrapper, '.email');
         setInputValue(emailInput, 'email@email.com');
@@ -106,9 +106,9 @@ describe('<LoginPage /> ', function () {
 
         expect(wrapper.find('.error-message').length).toBe(1);
         expect(wrapper.state().error).toEqual([
-            '\"email\" is required',
-            '\"password\" is required'
-        ]
+                '\"email\" is required',
+                '\"password\" is required'
+            ]
         );
 
         authServiceStub.restore();
@@ -123,7 +123,7 @@ describe('<LoginPage /> ', function () {
             push: historySpy
         };
 
-        const wrapper = shallow(<LoginPage history={history} />);
+        const wrapper = shallow(<LoginPage history={history}/>);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -142,5 +142,18 @@ describe('<LoginPage /> ', function () {
             authServiceStub.restore();
             done();
         }, 0);
+    });
+
+    it('should navigate to registration page when button is clicked', function () {
+        const historySpy = sinon.spy();
+
+        const history = {
+            push: historySpy
+        };
+
+        const wrapper = shallow(<LoginPage history={history}/>);
+        wrapper.find('.create-account-button').simulate('click');
+
+        sinon.assert.calledWith(historySpy, '/register');
     });
 });

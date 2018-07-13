@@ -32,7 +32,7 @@ export default class LoginPage extends React.Component<LoginPageProps, State> {
             <form className="login-page-form" onSubmit={this.submit}>
                 <h1>Log In</h1>
                 {this.state.error &&
-                    <div className="error-message alert alert-danger">{this.state.error}</div>
+                <div className="error-message alert alert-danger">{this.state.error}</div>
                 }
 
                 <div className="form-group">
@@ -41,7 +41,9 @@ export default class LoginPage extends React.Component<LoginPageProps, State> {
                         type="email"
                         placeholder="Email"
                         name="email"
-                        onChange={(event: any) => { this.setState({ email: event.target.value }); }}
+                        onChange={(event: any) => {
+                            this.setState({email: event.target.value});
+                        }}
                         required
                     />
                 </div>
@@ -52,18 +54,31 @@ export default class LoginPage extends React.Component<LoginPageProps, State> {
                         type="password"
                         placeholder="Password"
                         name="password"
-                        onChange={(event: any) => { this.setState({ password: event.target.value }); }}
+                        onChange={(event: any) => {
+                            this.setState({password: event.target.value});
+                        }}
                         required
                     />
                 </div>
 
                 <div className="form-group">
-                    <button
-                        type="submit"
-                        className="submit-button btn btn-primary"
-                    >
-                        Sign in
-                    </button>
+                    <div>
+                        <button
+                            type="submit"
+                            className="submit-button btn btn-primary"
+                        >
+                            Sign in
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            type="button"
+                            className="create-account-button btn btn-link"
+                            onClick={() => this.props.history.push('/register')}
+                        >
+                            Create account
+                        </button>
+                    </div>
                 </div>
             </form>
         );
@@ -76,7 +91,7 @@ export default class LoginPage extends React.Component<LoginPageProps, State> {
             await authService.login(this.state.email, this.state.password);
             this.props.history.push('/profile');
         } catch (error) {
-            this.setState({ error: responseErrorHandler(error) });
+            this.setState({error: responseErrorHandler(error)});
         }
     }
 }
