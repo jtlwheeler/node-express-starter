@@ -1,11 +1,11 @@
-import {shallow, configure} from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import * as React from 'react';
 import RegistrationPage from './RegistrationPage';
 import * as Adapter from 'enzyme-adapter-react-16';
-import {getInputBySelector, setInputValue, simulateSubmit} from '../test-helpers/wrapper.helper';
+import { getInputBySelector, setInputValue, simulateSubmit } from '../test-helpers/wrapper.helper';
 import authService from '../../services/auth/auth.service';
 import * as sinon from 'sinon';
-import {waitUntil} from '../test-helpers/waitUntil.helper';
+import { waitUntil } from '../test-helpers/waitUntil.helper';
 import History from '../shared/History';
 
 configure({adapter: new Adapter()});
@@ -123,5 +123,18 @@ describe('<Registration />', function () {
             authServiceStub.restore();
             done();
         }, 0);
+    });
+
+    it('should redirect to sign up page when button is clicked', function () {
+        const historySpy = sinon.spy();
+
+        const history = {
+            push: historySpy
+        };
+
+        const wrapper = shallow(<RegistrationPage history={history}/>);
+        wrapper.find('.login-button').simulate('click');
+
+        sinon.assert.calledWith(historySpy, '/login');
     });
 });

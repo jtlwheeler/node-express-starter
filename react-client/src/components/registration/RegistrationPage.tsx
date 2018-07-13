@@ -79,12 +79,23 @@ export default class RegistrationPage extends React.Component<RegistrationPagePr
                     </div>
 
                     <div className="form-group">
-                        <button
-                            type="submit"
-                            className="submit-button btn btn-primary"
-                        >
-                            Sign up
-                        </button>
+                        <div>
+                            <button
+                                type="submit"
+                                className="submit-button btn btn-primary"
+                            >
+                                Sign up
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                className="login-button btn btn-link"
+                                onClick={() => this.props.history.push('/login')}
+                            >
+                                Login
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
