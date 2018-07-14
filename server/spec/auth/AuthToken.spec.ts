@@ -30,5 +30,14 @@ describe('auth token', function () {
 
             expect(validToken).toBe(false);
         });
+
+        it('should return true when the token is valid', function () {
+            const authToken = new AuthToken();
+            const accessToken = authToken.generateToken('email@email.com');
+
+            const validToken = authToken.isTokenValid(accessToken);
+
+            expect(validToken).toBe(true);
+        });
     });
 });
