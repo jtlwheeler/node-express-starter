@@ -14,4 +14,12 @@ export default class AuthToken {
             accessToken: token
         };
     }
+
+    isTokenValid(token: AccessToken): boolean {
+        try {
+            jwt.verify(token.accessToken, config.jwtSecret);
+        } catch (error) {
+            return false;
+        }
+    }
 }
