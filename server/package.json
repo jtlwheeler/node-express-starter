@@ -10,7 +10,6 @@
     "build-serve-watch": "yarn build && concurrently \"yarn watch-serve\" \"yarn watch-ts\"",
     "build-ts": "tsc",
     "clean": "rm -rf dist/",
-    "mocha-test": "mocha -r ts-node/register spec/**/myMocha.test.ts",
     "serve": "yarn build && node dist/server.js",
     "start": "yarn serve",
     "test": "jasmine-ts \"./spec/**/*.spec.ts\"",

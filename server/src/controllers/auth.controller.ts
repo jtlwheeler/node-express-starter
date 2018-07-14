@@ -15,18 +15,18 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
 
         if (!user) {
             response.statusCode = 400;
-            return response.send({ errors: [ { message: info.message } ] });
+            return response.send({errors: [{message: info.message}]});
         }
 
         const token = jwt.sign({
-            email: request.body.email,
-        },
+                email: request.body.email,
+            },
             config.jwtSecret,
-            { expiresIn: '30d' });
-        return response.send({ token });
+            {expiresIn: '30d'});
+        return response.send({token});
     })(request, response, next);
 };
 
 export let secret = (request: Request, response: Response) => {
-    return response.send({ success: true });
+    return response.send({success: true});
 };
