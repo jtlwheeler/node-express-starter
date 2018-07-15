@@ -20,7 +20,7 @@ export class AuthService {
         return response.data.token;
     }
 
-    public async registerUser(registerUserRequest: any): Promise<Boolean> {
+    public async registerUser(registerUserRequest: any): Promise<boolean> {
         this.config.url = '/api/user/signUp/';
         this.config.method = 'post';
         this.config.data = registerUserRequest;
@@ -31,6 +31,13 @@ export class AuthService {
         } catch (error) {
             throw error;
         }
+    }
+
+    public async checkToken(token: Token): Promise<boolean> {
+        this.config.url = '/api/auth/checkToken/';
+        this.config.method = 'post';
+        const response = await axios.request(this.config);
+        return response.data.isTokenValid;
     }
 }
 

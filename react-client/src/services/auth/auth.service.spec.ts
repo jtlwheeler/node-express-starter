@@ -1,6 +1,7 @@
 import authService from './auth.service';
 import axios, { AxiosResponse } from 'axios';
 import * as sinon from 'sinon';
+import { Token } from '../../../../../my-app/src/services/authService';
 
 describe('auth service', function () {
 
@@ -19,7 +20,7 @@ describe('auth service', function () {
 
             expect(token).toBe('someToken');
             sinon.assert.calledWith(axiosStub,
-                sinon.match({ data: { email: 'email@email.com', password: 'myPassword' } }));
+                sinon.match({data: {email: 'email@email.com', password: 'myPassword'}}));
 
             axiosStub.restore();
             done();
@@ -50,7 +51,7 @@ describe('auth service', function () {
             expect(success).toBeTruthy();
 
             sinon.assert.calledWith(axiosStub,
-                sinon.match({ data: registerUserRequest }));
+                sinon.match({data: registerUserRequest}));
             axiosStub.restore();
         });
 
@@ -59,7 +60,7 @@ describe('auth service', function () {
             const response: AxiosResponse<any> = {
                 data: {
                     errors: [
-                        { message: 'You sent bad stuff' }
+                        {message: 'You sent bad stuff'}
                     ]
                 },
                 status: 400,
@@ -82,6 +83,32 @@ describe('auth service', function () {
             } catch (error) {
                 expect(error.data.errors[0].message).toBe('You sent bad stuff');
             }
+
+            axiosStub.restore();
+        });
+    });
+
+    describe('checkToken()', function () {
+        it('should return false when the token is invalid', async function () {
+            const axiosStub = sinon.stub(axios, 'request');
+            const response: AxiosResponse<any> = {
+                data: {
+                    isTokenValid: false
+                },
+                status: 200,
+                statusText: '',
+                headers: {},
+                config: {}
+            };
+
+            axiosStub.returns(response);
+
+            const token: Token = {
+                token: 'invalidToken'
+            };
+
+            const isTokenValid = await authService.checkToken(token);
+            expect(isTokenValid).toBe(false);
 
             axiosStub.restore();
         });
