@@ -115,5 +115,32 @@ describe('auth service', function () {
 
             axiosStub.restore();
         });
+
+        it('should return true when the token is valid', async function () {
+            const axiosStub = sinon.stub(axios, 'request');
+            const response: AxiosResponse<any> = {
+                data: {
+                    isTokenValid: true
+                },
+                status: 200,
+                statusText: '',
+                headers: {},
+                config: {}
+            };
+
+            axiosStub.returns(response);
+
+            const token: Token = {
+                token: 'invalidToken'
+            };
+
+            const isTokenValid = await authService.checkToken(token);
+            expect(isTokenValid).toBe(true);
+
+            sinon.assert.calledWith(axiosStub,
+                sinon.match({params: {token: token.token}}));
+
+            axiosStub.restore();
+        });
     });
 });
