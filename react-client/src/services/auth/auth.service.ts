@@ -17,9 +17,7 @@ export class AuthService {
         };
 
         const response = await axios.request(this.config);
-        const token = response.data.token;
-
-        return token;
+        return response.data.token;
     }
 
     public async registerUser(registerUserRequest: any): Promise<Boolean> {
@@ -29,11 +27,7 @@ export class AuthService {
 
         try {
             const response = await axios.request(this.config);
-            if (response.status === HttpStatus.OK) {
-                return true;
-            }
-
-            return false;
+            return response.status === HttpStatus.OK;
         } catch (error) {
             throw error;
         }
