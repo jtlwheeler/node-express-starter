@@ -185,4 +185,42 @@ describe('GET /api/auth/checkToken', function () {
                 done();
             });
     });
+
+    it('should return true when the token is valid', function (done) {
+        const email = chance.email();
+        const password = 'password';
+
+        insertUser(email, password)
+            .then(() => {
+                const body = {
+                    email: email,
+                    password: password
+                };
+
+                supertest.post(LOGIN_PATH)
+                    .send(body)
+                    .expect(200)
+                    .end((error: any, response: any) => {
+                        if (error) {
+                            done.fail(error);
+                        }
+
+                        const token = response.body.token;
+
+                        supertest.get('/api/auth/checkToken')
+                            .query({'token': token})
+                            .expect(200)
+                            .end((error: any, response: any) => {
+                                console.log('here');
+                                if (error) {
+                                    done.fail(error);
+                                }
+
+                                expect(response.body.isTokenValid).toBe(false);
+                                done();
+                            });
+                    });
+            })
+            .catch(() => done.fail());
+    });
 });
