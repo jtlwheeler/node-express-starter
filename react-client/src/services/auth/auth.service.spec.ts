@@ -110,6 +110,9 @@ describe('auth service', function () {
             const isTokenValid = await authService.checkToken(token);
             expect(isTokenValid).toBe(false);
 
+            sinon.assert.calledWith(axiosStub,
+                sinon.match({params: {token: token.token}}));
+
             axiosStub.restore();
         });
     });

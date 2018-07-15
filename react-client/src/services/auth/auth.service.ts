@@ -9,6 +9,7 @@ export class AuthService {
     };
 
     public async login(email: string, password: string): Promise<Token> {
+        this.config = {};
         this.config.url = '/api/auth/login';
         this.config.method = 'post';
         this.config.data = {
@@ -21,6 +22,7 @@ export class AuthService {
     }
 
     public async registerUser(registerUserRequest: any): Promise<boolean> {
+        this.config = {};
         this.config.url = '/api/user/signUp/';
         this.config.method = 'post';
         this.config.data = registerUserRequest;
@@ -34,8 +36,12 @@ export class AuthService {
     }
 
     public async checkToken(token: Token): Promise<boolean> {
+        this.config = {};
         this.config.url = '/api/auth/checkToken/';
-        this.config.method = 'post';
+        this.config.method = 'get';
+        this.config.params = {
+            token: token.token
+        };
         const response = await axios.request(this.config);
         return response.data.isTokenValid;
     }
