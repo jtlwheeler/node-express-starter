@@ -11,13 +11,15 @@ import History from '../shared/History';
 configure({adapter: new Adapter()});
 
 describe('<LoginPage /> ', function () {
+    const onSuccessfulLoginStub = sinon.stub();
 
     it('should render page', function () {
         const pushSpy = sinon.spy();
         const history: History = {
             push: pushSpy
         };
-        const wrapper = shallow(<LoginPage history={history}/>);
+
+        const wrapper = shallow(<LoginPage history={history} onSuccessfulLogin={onSuccessfulLoginStub}/>);
         expect(wrapper.find('.login-page-form').length).toBe(1);
     });
 
@@ -30,7 +32,7 @@ describe('<LoginPage /> ', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<LoginPage history={history}/>);
+        const wrapper = shallow(<LoginPage history={history} onSuccessfulLogin={onSuccessfulLoginStub}/>);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -56,7 +58,7 @@ describe('<LoginPage /> ', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<LoginPage history={history}/>);
+        const wrapper = shallow(<LoginPage history={history} onSuccessfulLogin={onSuccessfulLoginStub}/>);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -90,7 +92,7 @@ describe('<LoginPage /> ', function () {
             push: pushSpy
         };
 
-        const wrapper = shallow(<LoginPage history={history}/>);
+        const wrapper = shallow(<LoginPage history={history} onSuccessfulLogin={onSuccessfulLoginStub}/>);
 
         const emailInput = getInputBySelector(wrapper, '.email');
         setInputValue(emailInput, 'email@email.com');
@@ -155,7 +157,7 @@ describe('<LoginPage /> ', function () {
             push: historySpy
         };
 
-        const wrapper = shallow(<LoginPage history={history}/>);
+        const wrapper = shallow(<LoginPage history={history} onSuccessfulLogin={onSuccessfulLoginStub}/>);
         wrapper.find('.create-account-button').simulate('click');
 
         sinon.assert.calledWith(historySpy, '/register');
