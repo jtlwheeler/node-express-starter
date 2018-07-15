@@ -2,9 +2,11 @@ import * as React from 'react';
 import authService from '../../services/auth/auth.service';
 import { responseErrorHandler } from '../shared/responseErrorHandler';
 import History from '../shared/History';
+import { Token } from '../../../../../my-app/src/services/authService';
 
 export interface LoginPageProps {
     history: History;
+    onSuccessfulLogin: (token: Token) => void;
 }
 
 type State = {
@@ -88,7 +90,8 @@ export default class LoginPage extends React.Component<LoginPageProps, State> {
         event.preventDefault();
 
         try {
-            await authService.login(this.state.email, this.state.password);
+            const token = await authService.login(this.state.email, this.state.password);
+            this.props.onSuccessfulLogin(token);
             this.props.history.push('/profile');
         } catch (error) {
             this.setState({error: responseErrorHandler(error)});

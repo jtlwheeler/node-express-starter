@@ -114,7 +114,7 @@ describe('<LoginPage /> ', function () {
         authServiceStub.restore();
     });
 
-    it('should redirect to the profile page after successful login', function (done: jest.DoneCallback) {
+    it('should redirect to profile page after successful login and call onSuccessfulLogin prop', function (done: jest.DoneCallback) {
         const historySpy = sinon.spy();
         const authServiceStub = sinon.stub(authService, 'login')
             .resolves('someToken');
@@ -123,7 +123,9 @@ describe('<LoginPage /> ', function () {
             push: historySpy
         };
 
-        const wrapper = shallow(<LoginPage history={history}/>);
+        const onSuccessfulLoginSpy = sinon.spy();
+
+        const wrapper = shallow(<LoginPage history={history} onSuccessfulLogin={onSuccessfulLoginSpy}/>);
         const email = 'email@email.com';
         const password = 'somePassword';
 
@@ -139,6 +141,8 @@ describe('<LoginPage /> ', function () {
         expect(authServiceStub.calledWith(email, password)).toBe(true);
         setTimeout(() => {
             expect(historySpy.called).toBe(true);
+            expect(onSuccessfulLoginSpy.called).toBe(true);
+
             authServiceStub.restore();
             done();
         }, 0);
