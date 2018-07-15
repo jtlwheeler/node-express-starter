@@ -13,4 +13,7 @@ router.route('/login')
 router.route('/secret')
     .get(expressJwt({secret: config.jwtSecret}), authController.secret);
 
+router.route('/checkToken')
+    .get(authController.checkToken);
+
 export default router;

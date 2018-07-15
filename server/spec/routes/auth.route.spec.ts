@@ -3,9 +3,11 @@ import { Chance } from 'chance';
 import User, { UserModel } from '../../src/models/User';
 import * as HttpStatus from 'http-status-codes';
 import * as app from '../../src/app';
+
 const supertest = require('supertest')(app);
 import * as jwt from 'jsonwebtoken';
 import { insertUser } from '../helpers/insertUser';
+
 const chance = new Chance();
 
 const LOGIN_PATH = '/api/auth/login';
@@ -100,7 +102,7 @@ describe(`POST ${LOGIN_PATH}`, function () {
                         }
 
                         expect(response.body.token).toBeTruthy();
-                        const decodedJwt: any = jwt.decode(response.body.token, { complete: true });
+                        const decodedJwt: any = jwt.decode(response.body.token, {complete: true});
                         expect(decodedJwt).toBeTruthy();
                         expect(decodedJwt.header.alg).toBeTruthy('HS256');
                         expect(decodedJwt.header.typ).toBeTruthy('JWT');
@@ -164,5 +166,23 @@ describe(`GET ${SECRET_PATH}`, function () {
                     });
             })
             .catch(() => done.fail());
+    });
+});
+
+
+describe('GET /api/auth/checkToken', function () {
+    it('should return false when the token is invalid', function (done) {
+        supertest.get('/api/auth/checkToken')
+            .query({'token': 'invalidToken'})
+            .expect(200)
+            .end((error: any, response: any) => {
+                console.log('here');
+                if (error) {
+                    done.fail(error);
+                }
+
+                expect(response.body.isTokenValid).toBe(false);
+                done();
+            });
     });
 });

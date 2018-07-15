@@ -27,3 +27,7 @@ export let login = (request: Request, response: Response, next: NextFunction) =>
 export let secret = (request: Request, response: Response) => {
     return response.send({success: true});
 };
+
+export let checkToken = (request: Request, response: Response) => {
+    return response.send({isTokenValid: authToken.isTokenValid(request.query.token)});
+};
