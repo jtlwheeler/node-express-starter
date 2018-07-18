@@ -4,8 +4,31 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import RegistrationPage from './components/registration/RegistrationPage';
 import { ProfilePage } from './components/profile-page/ProfilePage';
 import LoginPage from './components/login-page/LoginPage';
+import authService from './services/auth/auth.service';
+import { Token } from '../../../my-app/src/services/authService';
 
-class App extends React.Component {
+interface State {
+    token?: Token;
+    isUserLoggedIn: boolean;
+}
+
+class App extends React.Component<any, State> {
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            token: undefined,
+            isUserLoggedIn: false
+        };
+
+        this.isUserLoggedIn = this.isUserLoggedIn.bind(this);
+        this.onSuccessfulLogin = this.onSuccessfulLogin.bind(this);
+    }
+
+    async componentDidMount() {
+        this.setState({isUserLoggedIn: await this.isUserLoggedIn()});
+    }
+
     render() {
         return (
             <div>
@@ -13,16 +36,45 @@ class App extends React.Component {
                 <BrowserRouter>
                     <div className="container">
                         <Switch>
-                            <Route exact path="/" component={LoginPage}/>
-                            <Route path="/login" component={LoginPage}/>
+                            <Route path="/login" render={props => this.renderLoginPage(props)}/>
                             <Route path="/register" component={RegistrationPage}/>
-                            <Route path="/profile" component={ProfilePage}/>
-                            <Redirect to="/"/>
+                            <Route
+                                path="/profile"
+                                render={(props) => (
+                                    this.state.isUserLoggedIn
+                                        ? <ProfilePage history={props.history}/>
+                                        : <Redirect to="/login"/>
+                                )}
+                            />
+                            <Redirect to="/login"/>
                         </Switch>
                     </div>
                 </BrowserRouter>
             </div>
         );
+    }
+
+    private async isUserLoggedIn(): Promise<boolean> {
+        if (this.state.token === undefined) {
+            this.setState({isUserLoggedIn: false});
+            return false;
+        }
+
+        const isUserLoggedIn = await authService.checkToken(this.state.token);
+        this.setState({isUserLoggedIn: isUserLoggedIn});
+        return isUserLoggedIn;
+    }
+
+    private onSuccessfulLogin() {
+        this.setState({isUserLoggedIn: true});
+    }
+
+    private renderLoginPage(props: any) {
+        if (this.state.isUserLoggedIn) {
+            return <ProfilePage history={props.history}/>;
+        } else {
+            return <LoginPage history={props.history} onSuccessfulLogin={this.onSuccessfulLogin}/>;
+        }
     }
 }
 
