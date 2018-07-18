@@ -143,4 +143,27 @@ describe('auth service', function () {
             axiosStub.restore();
         });
     });
+
+    describe('getSecret()', function () {
+        it('should access /secret endpoint with token', async function () {
+            const response: AxiosResponse<any> = {
+                data: {
+                    success: true
+                },
+                status: 200,
+                statusText: '',
+                headers: {},
+                config: {}
+            };
+
+            const axiosStub = sinon.stub(axios, 'request').returns(Promise.resolve(response));
+            const token = {token: 'validToken'};
+
+            const accessedSecret = await authService.getSecret(token);
+
+            expect(accessedSecret).toBe(true);
+            sinon.assert.calledWith(axiosStub,
+                sinon.match({headers: {Authorization: `Bearer ${token.token}`}}));
+        });
+    });
 });

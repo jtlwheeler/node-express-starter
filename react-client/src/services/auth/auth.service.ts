@@ -24,7 +24,7 @@ export class AuthService {
     public async registerUser(registerUserRequest: any): Promise<boolean> {
         const config: AxiosRequestConfig = {
             baseURL: this.baseURL,
-            url:  '/api/user/signUp/',
+            url: '/api/user/signUp/',
             method: 'post',
             data: registerUserRequest
         };
@@ -40,7 +40,7 @@ export class AuthService {
     public async checkToken(token: Token): Promise<boolean> {
         const config: AxiosRequestConfig = {
             baseURL: this.baseURL,
-            url:  '/api/auth/checkToken/',
+            url: '/api/auth/checkToken/',
             method: 'get',
             params: {
                 token: token.token
@@ -50,6 +50,20 @@ export class AuthService {
 
         const response = await axios.request(config);
         return response.data.isTokenValid;
+    }
+
+    public async getSecret(token: Token): Promise<boolean> {
+        const config: AxiosRequestConfig = {
+            baseURL: this.baseURL,
+            url: '/api/auth/secret/',
+            method: 'get',
+            headers: {
+                Authorization: `Bearer ${token.token}`
+            }
+        };
+
+        const response = await axios.request(config);
+        return response.data.success;
     }
 }
 
