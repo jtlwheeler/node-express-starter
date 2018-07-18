@@ -210,12 +210,11 @@ describe('GET /api/auth/checkToken', function () {
                             .query({'token': token})
                             .expect(200)
                             .end((error: any, response: any) => {
-                                console.log('here');
                                 if (error) {
                                     done.fail(error);
                                 }
 
-                                expect(response.body.isTokenValid).toBe(false);
+                                expect(response.body.isTokenValid).toBe(true);
                                 done();
                             });
                     });

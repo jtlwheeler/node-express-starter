@@ -36,7 +36,6 @@ describe('User model', function () {
             .then((user: UserModel) => {
                 User.findOne({ email: this.email }, (error: any, user: any) => {
                     if (error) {
-                        console.log(error);
                         throw error;
                     }
 

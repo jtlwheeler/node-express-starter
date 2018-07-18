@@ -29,5 +29,8 @@ export let secret = (request: Request, response: Response) => {
 };
 
 export let checkToken = (request: Request, response: Response) => {
-    return response.send({isTokenValid: authToken.isTokenValid(request.query.token)});
+    const token = {
+        accessToken: request.query.token
+    };
+    return response.send({isTokenValid: authToken.isTokenValid(token)});
 };
