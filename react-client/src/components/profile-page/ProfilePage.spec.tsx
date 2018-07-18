@@ -13,6 +13,7 @@ describe('<ProfilePage />', function () {
         const token = {
             token: 'theAccessToken'
         };
+
         const wrapper = shallow(<ProfilePage token={token}/>);
         expect(wrapper.find('.profile-page').length).toBe(1);
     });

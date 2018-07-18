@@ -2,13 +2,13 @@ import * as React from 'react';
 import NavigationMenu from './components/navigation-menu/NavigationMenu';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import RegistrationPage from './components/registration/RegistrationPage';
-import { ProfilePage } from './components/profile-page/ProfilePage';
 import LoginPage from './components/login-page/LoginPage';
 import authService from './services/auth/auth.service';
 import { Token } from '../../../my-app/src/services/authService';
+import ProfilePage from './components/profile-page/ProfilePage';
 
 interface State {
-    token?: Token;
+    token: Token;
     isUserLoggedIn: boolean;
 }
 
@@ -17,7 +17,7 @@ class App extends React.Component<any, State> {
         super(props);
 
         this.state = {
-            token: undefined,
+            token: {token: ''},
             isUserLoggedIn: false
         };
 
@@ -40,9 +40,9 @@ class App extends React.Component<any, State> {
                             <Route path="/register" component={RegistrationPage}/>
                             <Route
                                 path="/profile"
-                                render={(props) => (
+                                render={() => (
                                     this.state.isUserLoggedIn
-                                        ? <ProfilePage history={props.history}/>
+                                        ? <ProfilePage token={this.state.token}/>
                                         : <Redirect to="/login"/>
                                 )}
                             />
@@ -55,7 +55,7 @@ class App extends React.Component<any, State> {
     }
 
     private async isUserLoggedIn(): Promise<boolean> {
-        if (this.state.token === undefined) {
+        if (this.state.token === undefined || this.state.token.token === '') {
             this.setState({isUserLoggedIn: false});
             return false;
         }
@@ -65,13 +65,16 @@ class App extends React.Component<any, State> {
         return isUserLoggedIn;
     }
 
-    private onSuccessfulLogin() {
-        this.setState({isUserLoggedIn: true});
+    private onSuccessfulLogin(token: Token) {
+        this.setState({
+            isUserLoggedIn: true,
+            token: token
+        });
     }
 
     private renderLoginPage(props: any) {
         if (this.state.isUserLoggedIn) {
-            return <ProfilePage history={props.history}/>;
+            return <ProfilePage token={this.state.token}/>;
         } else {
             return <LoginPage history={props.history} onSuccessfulLogin={this.onSuccessfulLogin}/>;
         }

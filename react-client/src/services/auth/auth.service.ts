@@ -18,7 +18,7 @@ export class AuthService {
         };
 
         const response = await axios.request(config);
-        return response.data.token;
+        return {token: response.data.token};
     }
 
     public async registerUser(registerUserRequest: any): Promise<boolean> {
@@ -65,7 +65,7 @@ export class AuthService {
         try {
             const response = await axios.request(config);
             return response.data.success;
-        } catch(error) {
+        } catch (error) {
             return false;
         }
     }
