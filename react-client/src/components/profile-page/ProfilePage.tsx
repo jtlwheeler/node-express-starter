@@ -22,12 +22,10 @@ export default class ProfilePage extends React.Component<ProfilePageProps, State
 
     async componentDidMount() {
         const accessedSecret = await authService.getSecret(this.props.token);
-        console.log(accessedSecret);
         this.setState({accessedSecret: accessedSecret});
     }
 
     render() {
-        console.log(this.state.accessedSecret);
         return (
             <div className="profile-page">
                 <h1>Profile Page</h1>

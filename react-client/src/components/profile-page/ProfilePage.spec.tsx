@@ -17,7 +17,7 @@ describe('<ProfilePage />', function () {
         expect(wrapper.find('.profile-page').length).toBe(1);
     });
 
-    fit('should call getSecret when page loads and render success on UI', async function () {
+    it('should call getSecret when page loads and render success on UI', async function () {
         const authServiceStub = sinon.stub(authService, 'getSecret')
             .returns(Promise.resolve(true));
 
