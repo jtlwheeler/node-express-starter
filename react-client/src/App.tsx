@@ -37,7 +37,17 @@ class App extends React.Component<any, State> {
                         <NavigationMenu/>
                         <div className="container">
                             <Switch>
-                                <Route path="/login" render={props => this.renderLoginPage(props)}/>
+                                <Route
+                                    path="/login"
+                                    render={props => (
+                                        this.state.isUserLoggedIn
+                                            ? <Redirect to="/profile"/>
+                                            : <LoginPage
+                                                history={props.history}
+                                                onSuccessfulLogin={this.onSuccessfulLogin}
+                                            />
+                                    )}
+                                />
                                 <Route path="/register" component={RegistrationPage}/>
                                 <Route
                                     path="/profile"
@@ -72,14 +82,6 @@ class App extends React.Component<any, State> {
             isUserLoggedIn: true,
             token: token
         });
-    }
-
-    private renderLoginPage(props: any) {
-        if (this.state.isUserLoggedIn) {
-            return <Redirect to="/profile"/>;
-        } else {
-            return <LoginPage history={props.history} onSuccessfulLogin={this.onSuccessfulLogin}/>;
-        }
     }
 }
 
