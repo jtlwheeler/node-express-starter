@@ -176,7 +176,6 @@ describe('GET /api/auth/checkToken', function () {
             .query({'token': 'invalidToken'})
             .expect(200)
             .end((error: any, response: any) => {
-                console.log('here');
                 if (error) {
                     done.fail(error);
                 }
