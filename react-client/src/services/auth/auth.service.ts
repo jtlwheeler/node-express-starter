@@ -62,8 +62,12 @@ export class AuthService {
             }
         };
 
-        const response = await axios.request(config);
-        return response.data.success;
+        try {
+            const response = await axios.request(config);
+            return response.data.success;
+        } catch(error) {
+            return false;
+        }
     }
 }
 

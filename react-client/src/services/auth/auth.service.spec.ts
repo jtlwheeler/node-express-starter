@@ -164,6 +164,27 @@ describe('auth service', function () {
             expect(accessedSecret).toBe(true);
             sinon.assert.calledWith(axiosStub,
                 sinon.match({headers: {Authorization: `Bearer ${token.token}`}}));
+
+            axiosStub.restore();
+        });
+
+        it('should return false when accessing /secret with invalid token', async function () {
+            const response: AxiosResponse<any> = {
+                data: {},
+                status: 401,
+                statusText: '',
+                headers: {},
+                config: {}
+            };
+
+            const axiosStub = sinon.stub(axios, 'request').returns(Promise.reject(response));
+            const token = {token: 'thisTokenIsNotGood'};
+
+            const accessedSecret = await authService.getSecret(token);
+
+            expect(accessedSecret).toBe(false);
+
+            axiosStub.restore();
         });
     });
 });
