@@ -21,12 +21,21 @@ tasks {
         )
 
     "build"(YarnTask::class) {
-            dependsOn("yarn")
+        dependsOn("yarn")
 
-            inputs.files(javascriptRuntime)
-            inputs.dir("src")
-            outputs.dir("build/dist")
+        inputs.files(javascriptRuntime)
+        inputs.dir("src")
 
-            args = listOf("run", "build")
-        }
+        args = listOf("run", "build")
+    }
+
+    "testClient"(YarnTask::class) {
+        dependsOn("yarn")
+
+        inputs.files(javascriptRuntime)
+        inputs.dir("src")
+        outputs.dir("build/dist")
+
+        args = listOf("run", "test", "-o")
+    }
 }
