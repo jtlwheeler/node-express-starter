@@ -10,7 +10,7 @@ import History from '../shared/History';
 
 configure({adapter: new Adapter()});
 
-describe('<LoginPage /> ', function () {
+describe('<LoginPage />', function () {
     const onSuccessfulLoginStub = sinon.stub();
 
     it('should render page', function () {
