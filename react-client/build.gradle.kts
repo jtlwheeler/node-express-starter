@@ -14,11 +14,11 @@ node {
 
 tasks {
     val javascriptRuntime = arrayOf(
-                fileTree("node_modules"),
-                "package.json",
-                "tsconfig.json",
-                "yarn.lock"
-        )
+            fileTree("node_modules"),
+            "package.json",
+            "tsconfig.json",
+            "yarn.lock"
+    )
 
     "build"(YarnTask::class) {
         dependsOn("yarn")
@@ -36,6 +36,6 @@ tasks {
         inputs.dir("src")
         outputs.dir("build/dist")
 
-        args = listOf("run", "test", "-o")
+        args = listOf("run", "test")
     }
 }

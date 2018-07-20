@@ -97,8 +97,8 @@ describe('<LoginPage />', function () {
         const emailInput = getInputBySelector(wrapper, '.email');
         setInputValue(emailInput, 'email@email.com');
 
-        const paswordInput = getInputBySelector(wrapper, '.password');
-        setInputValue(paswordInput, 'password');
+        const passwordInput = getInputBySelector(wrapper, '.password');
+        setInputValue(passwordInput, 'password');
 
         simulateSubmit(wrapper, '.login-page-form');
 
@@ -107,7 +107,7 @@ describe('<LoginPage />', function () {
             'Error message never appeared');
 
         expect(wrapper.find('.error-message').length).toBe(1);
-        expect(wrapper.state().error).toEqual([
+        expect(wrapper.state('error')).toEqual([
                 '\"email\" is required',
                 '\"password\" is required'
             ]
