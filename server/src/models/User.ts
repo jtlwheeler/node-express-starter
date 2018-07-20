@@ -25,12 +25,12 @@ userSchema.pre('save', function save(next) {
             return next(err);
         }
 
-        bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
+        bcrypt.hash((user as UserModel).password, salt, undefined, (err: mongoose.Error, hash) => {
             if (err) {
                 return next(err);
             }
 
-            user.password = hash;
+            (user as UserModel).password = hash;
             next();
         });
     });

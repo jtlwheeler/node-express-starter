@@ -19,7 +19,7 @@ tasks {
             "yarn.lock"
     )
 
-    "build"(YarnTask::class) {
+    "build"(type = YarnTask::class) {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
@@ -28,12 +28,12 @@ tasks {
         args = listOf("run", "build")
     }
 
-    "testClient"(YarnTask::class) {
+    "testServer"(YarnTask::class) {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
         inputs.dir("src")
-        outputs.dir("build/dist")
+        outputs.dir("dist")
 
         args = listOf("run", "test")
     }
