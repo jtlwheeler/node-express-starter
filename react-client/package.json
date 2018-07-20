@@ -11,17 +11,19 @@
     "http-status": "^1.2.0",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.3",
+    "protractor": "^5.4.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.16.0"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
+    "eject": "react-scripts-ts eject",
+    "postinstall": "webdriver-manager update",
+    "start": "react-scripts-ts start",
     "test": "CI=true react-scripts-ts test --env=jsdom",
-    "testWatch": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "testWatch": "react-scripts-ts test --env=jsdom"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
