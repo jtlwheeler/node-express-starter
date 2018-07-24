@@ -1,5 +1,5 @@
-describe('Sign up', function () {
-    it('should sign user up and navigate to the profile page', async function () {
+describe('Home', function () {
+    it('title should be "React App"', async function () {
         browser.get('/');
 
         expect(browser.getTitle()).toEqual('React App');

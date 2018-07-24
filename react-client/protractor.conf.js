@@ -13,8 +13,11 @@ let jUnitXmlReporter = new jasmineReporters.JUnitXmlReporter({
 });
 
 exports.config = {
-    seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: ['e2e/**/*.e2e.js'],
+    capabilities: {
+        browserName: process.env.BROWSER || 'chrome',
+        seleniumAddress: process.env.SELENIUM_ADDRESS
+    },
     baseUrl: 'http://localhost:3000',
     onPrepare: async function () {
         jasmine.getEnv().addReporter(screenshotReporter);
