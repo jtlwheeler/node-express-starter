@@ -16,10 +16,9 @@ tasks {
             fileTree("node_modules"),
             "package.json",
             "tsconfig.json",
-            "yarn.lock"
-    )
+            "yarn.lock")
 
-    "build"(type = YarnTask::class) {
+    "build"(YarnTask::class) {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
