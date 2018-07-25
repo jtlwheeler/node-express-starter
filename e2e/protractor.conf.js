@@ -13,7 +13,7 @@ let jUnitXmlReporter = new jasmineReporters.JUnitXmlReporter({
 });
 
 exports.config = {
-    specs: ['e2e/**/*.e2e.js'],
+    specs: ['src/**/*.e2e.js'],
     capabilities: {
         browserName: process.env.BROWSER || 'chrome',
         seleniumAddress: process.env.SELENIUM_ADDRESS

@@ -38,7 +38,7 @@ tasks {
     }
 
     "startServer"(YarnTask::class) {
-        dependsOn("yarn")
+        dependsOn("yarn", "build")
 
         inputs.files(javascriptRuntime)
         inputs.dir("src")

@@ -1,0 +1,14 @@
+{
+  "name": "react-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "jasmine-reporters": "^2.3.1",
+    "protractor": "^5.4.0",
+    "protractor-jasmine2-screenshot-reporter": "^0.5.0"
+  },
+  "scripts": {
+    "e2e": "protractor protractor.conf.js",
+    "postinstall": "webdriver-manager update"
+  }
+}
