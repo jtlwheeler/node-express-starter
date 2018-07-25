@@ -15,7 +15,6 @@ tasks {
     val javascriptRuntime = arrayOf(
             fileTree("node_modules"),
             "package.json",
-            "tsconfig.json",
             "yarn.lock")
 
     "e2e"(YarnTask::class) {

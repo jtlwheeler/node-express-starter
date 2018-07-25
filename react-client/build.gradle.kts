@@ -24,6 +24,7 @@ tasks {
 
         inputs.files(javascriptRuntime)
         inputs.dir("src")
+        outputs.dir("build")
 
         args = listOf("run", "build")
     }

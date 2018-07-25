@@ -19,10 +19,11 @@ tasks {
             "yarn.lock")
 
     "build"(YarnTask::class) {
-        dependsOn("yarn")
+        dependsOn("yarn", "copyClientToServer")
 
         inputs.files(javascriptRuntime)
         inputs.dir("src")
+        outputs.dir("dist")
 
         args = listOf("run", "build")
     }
@@ -57,5 +58,13 @@ tasks {
         outputs.upToDateWhen { false }
 
         args = listOf("run", "stopServerDaemon")
+    }
+
+    "copyClientToServer"(Copy::class) {
+        dependsOn(":react-client:build")
+
+        from("../react-client/build")
+        into("dist/assets")
+        outputs.upToDateWhen { false }
     }
 }

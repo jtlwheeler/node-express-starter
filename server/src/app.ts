@@ -6,11 +6,12 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as bluebird from 'bluebird';
 import * as cors from 'cors';
+import * as path from 'path';
 
 const passportConfig = require('./config/passport');
 
 (<any>mongoose).Promise = bluebird;
-mongoose.connect(config.mongoUri);
+mongoose.connect(config.mongoUri, { useNewUrlParser: true });
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,11 @@ if (config.env == 'production') {
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.use('/api', routes);
+app.use(express.static(path.join(__dirname, 'assets')));
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'assets', 'index.html'));
+});
 
 module.exports = app;
