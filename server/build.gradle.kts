@@ -36,4 +36,26 @@ tasks {
 
         args = listOf("run", "test")
     }
+
+    "startServer"(YarnTask::class) {
+        dependsOn("yarn")
+
+        inputs.files(javascriptRuntime)
+        inputs.dir("src")
+        outputs.dir("dist")
+        outputs.upToDateWhen { false }
+
+        args = listOf("run", "startServerDaemon")
+    }
+
+    "stopServer"(YarnTask::class) {
+        dependsOn("yarn")
+
+        inputs.files(javascriptRuntime)
+        inputs.dir("src")
+        outputs.dir("dist")
+        outputs.upToDateWhen { false }
+
+        args = listOf("run", "stopServerDaemon")
+    }
 }
