@@ -8,3 +8,4 @@ yarn-error.log
 react-client/.gradle/
 *.log
 screenshots/
+build/

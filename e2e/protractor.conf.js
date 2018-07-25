@@ -18,7 +18,7 @@ exports.config = {
         browserName: process.env.BROWSER || 'chrome',
         seleniumAddress: process.env.SELENIUM_ADDRESS
     },
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3001',
     onPrepare: async function () {
         jasmine.getEnv().addReporter(screenshotReporter);
         jasmine.getEnv().addReporter(jUnitXmlReporter);

@@ -56,6 +56,7 @@ tasks {
         inputs.dir("src")
         outputs.dir("dist")
         outputs.upToDateWhen { false }
+        mustRunAfter(":e2e:e2e")
 
         args = listOf("run", "stopServerDaemon")
     }

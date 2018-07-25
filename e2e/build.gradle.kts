@@ -18,11 +18,13 @@ tasks {
             "yarn.lock")
 
     "e2e"(YarnTask::class) {
-        dependsOn("yarn")
+        dependsOn("yarn", ":server:startServer")
 
         inputs.files(javascriptRuntime)
         inputs.dir("src")
 
         args = listOf("run", "e2e")
+
+        finalizedBy(":server:stopServer")
     }
 }
