@@ -18,8 +18,9 @@ exports.config = {
         browserName: process.env.BROWSER || 'chrome',
         seleniumAddress: process.env.SELENIUM_ADDRESS
     },
-    baseUrl: 'http://localhost:3001',
+    baseUrl: process.env.PROTRACTOR_BASE_URL || 'http://localhost:3001',
     onPrepare: async function () {
+        console.log(`Base URL: ${browser.baseUrl}`);
         jasmine.getEnv().addReporter(screenshotReporter);
         jasmine.getEnv().addReporter(jUnitXmlReporter);
         browser.ignoreSynchronization = true;

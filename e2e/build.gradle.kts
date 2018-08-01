@@ -27,4 +27,14 @@ tasks {
 
         finalizedBy(":server:stopServer")
     }
+
+    "e2eProd"(YarnTask::class) {
+        val envs = mapOf("PROTRACTOR_BASE_URL" to "http://localhost:8080")
+        setEnvironment(envs)
+
+        inputs.files(javascriptRuntime)
+        inputs.dir("src")
+
+        args = listOf("run", "e2e")
+    }
 }
