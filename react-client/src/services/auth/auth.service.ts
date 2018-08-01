@@ -4,11 +4,8 @@ import * as HttpStatus from 'http-status';
 
 export class AuthService {
 
-    private baseURL = process.env.REACT_APP_API_URL;
-
     public async login(email: string, password: string): Promise<Token> {
         const config: AxiosRequestConfig = {
-            baseURL: this.baseURL,
             url: '/api/auth/login',
             method: 'post',
             data: {
@@ -23,7 +20,6 @@ export class AuthService {
 
     public async registerUser(registerUserRequest: any): Promise<boolean> {
         const config: AxiosRequestConfig = {
-            baseURL: this.baseURL,
             url: '/api/user/signUp/',
             method: 'post',
             data: registerUserRequest
@@ -39,12 +35,10 @@ export class AuthService {
 
     public async checkToken(token: Token): Promise<boolean> {
         const config: AxiosRequestConfig = {
-            baseURL: this.baseURL,
             url: '/api/auth/checkToken/',
             method: 'get',
             params: {
                 token: token.token
-
             }
         };
 
@@ -54,7 +48,6 @@ export class AuthService {
 
     public async getSecret(token: Token): Promise<boolean> {
         const config: AxiosRequestConfig = {
-            baseURL: this.baseURL,
             url: '/api/auth/secret/',
             method: 'get',
             headers: {

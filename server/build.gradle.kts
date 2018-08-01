@@ -62,7 +62,7 @@ tasks {
     }
 
     "copyClientToServer"(Copy::class) {
-        dependsOn(":react-client:buildProd")
+        dependsOn(":react-client:build")
 
         from("../react-client/build")
         into("dist/assets")
