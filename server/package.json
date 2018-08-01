@@ -11,6 +11,7 @@
     "build-ts": "tsc",
     "clean": "rm -rf dist/",
     "serve": "node dist/server.js",
+    "serve-prod": "CONFIG_FILE=.env.prod yarn serve",
     "start": "yarn serve",
     "startServerDaemon": "forever start -a -l forever.log -o out.log -e err.log dist/server.js",
     "stopServerDaemon": "forever stop dist/server.js",

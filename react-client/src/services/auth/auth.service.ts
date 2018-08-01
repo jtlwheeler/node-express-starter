@@ -4,7 +4,7 @@ import * as HttpStatus from 'http-status';
 
 export class AuthService {
 
-    private baseURL = 'http://localhost:3001';
+    private baseURL = process.env.REACT_APP_API_URL;
 
     public async login(email: string, password: string): Promise<Token> {
         const config: AxiosRequestConfig = {

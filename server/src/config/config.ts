@@ -1,7 +1,8 @@
 import * as Joi from 'joi';
 import * as dotenv from 'dotenv';
 
-const result = dotenv.config();
+const envFile = process.env.CONFIG_FILE || '.env';
+const result = dotenv.config({path: envFile});
 if (result.error) {
     throw result.error;
 }

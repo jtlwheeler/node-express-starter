@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    image: jtlwheeler/node-express-starter
+    links:
+      - db
+    ports:
+    - "8080:80"
+    environment:
+      - "MONGO_URI=mongodb://db:27017/test"
+
+  db:
+    image: mongo:latest
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok' | mongo localhost:27017/test --quiet"
+      interval: 15s

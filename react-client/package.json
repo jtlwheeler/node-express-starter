@@ -8,6 +8,7 @@
     "bluebird": "^3.5.1",
     "bootstrap": "^4.1.1",
     "bootswatch": "^4.1.1",
+    "dotenv": "^6.0.0",
     "http-status": "^1.2.0",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.3",
@@ -18,6 +19,7 @@
   },
   "scripts": {
     "build": "react-scripts-ts build",
+    "build:prod": "react-scripts-ts -r dotenv/config build  dotenv_config_path=.env.prod",
     "eject": "react-scripts-ts eject",
     "start": "react-scripts-ts start",
     "test": "CI=true react-scripts-ts test --env=jsdom",
