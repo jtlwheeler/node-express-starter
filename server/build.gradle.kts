@@ -74,9 +74,9 @@ tasks {
     }
 
     "copyClientToServer"(Copy::class) {
-        dependsOn(":react-client:build")
+        dependsOn(":client:build")
 
-        from("../react-client/build")
+        from("../client/build")
         into("dist/assets")
         outputs.upToDateWhen { false }
     }

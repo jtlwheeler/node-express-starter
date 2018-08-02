@@ -1,5 +1,5 @@
 rootProject.name = 'node-express-starter'
 
-include 'react-client'
+include 'client'
 include 'server'
 include 'e2e'
