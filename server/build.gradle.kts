@@ -1,7 +1,19 @@
 import com.moowork.gradle.node.yarn.YarnTask
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("com.bmuschko:gradle-docker-plugin:3.3.1")
+    }
+}
 
 plugins {
     id("com.moowork.node") version "1.2.0"
+    id("com.bmuschko.docker-remote-api") version "3.3.3"
 }
 
 node {
@@ -68,4 +80,12 @@ tasks {
         into("dist/assets")
         outputs.upToDateWhen { false }
     }
+
+    "dockerBuildImage"(DockerBuildImage::class) {
+        dependsOn(":server:build")
+
+        inputDir = project.projectDir
+        tag = "jtlwheeler/node-express-starter:latest"
+    }
 }
+
