@@ -1,10 +1,8 @@
 FROM node:10.7.0-alpine
 
-RUN apk add --no-cache curl
-
 WORKDIR /usr/src/app
 
-COPY package.json .env.prod ./
+COPY package.json .env.prod src/health.js ./
 COPY node_modules/ node_modules/
 COPY dist/ dist/
 
@@ -14,4 +12,4 @@ CMD [ "yarn", "serve"]
 
 EXPOSE 80
 
-HEALTHCHECK  --start-period=5s --interval=15s CMD curl -f http://localhost:80/api/health
+HEALTHCHECK  --start-period=5s --interval=15s CMD node health.js http://localhost:80/api/health
