@@ -12,6 +12,10 @@ node {
 }
 
 tasks {
+    "clean"(Delete::class) {
+        delete("build", "node_modules")
+    }
+
     val javascriptRuntime = arrayOf(
             fileTree("node_modules"),
             "package.json",
@@ -47,5 +51,13 @@ tasks {
         outputs.dir("build/dist")
 
         args = listOf("run", "test")
+    }
+
+    "test" {
+        dependsOn("testClient")
+    }
+
+    "check" {
+        dependsOn("test")
     }
 }

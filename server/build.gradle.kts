@@ -24,6 +24,10 @@ node {
 }
 
 tasks {
+    "clean"(Delete::class) {
+        delete("build", "node_modules")
+    }
+
     val javascriptRuntime = arrayOf(
             fileTree("node_modules"),
             "package.json",
@@ -48,6 +52,14 @@ tasks {
         outputs.dir("dist")
 
         args = listOf("run", "test")
+    }
+
+    "test" {
+        dependsOn("testServer")
+    }
+
+    "check" {
+        dependsOn("test")
     }
 
     "startServer"(YarnTask::class) {
