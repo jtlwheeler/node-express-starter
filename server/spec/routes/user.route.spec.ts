@@ -131,7 +131,7 @@ describe(`POST ${SIGN_UP_PATH}`, function () {
                     }
 
                     expect(response.body.errors).toBeTruthy();
-                    expect(response.body.errors[0].message).toBe('User already exists');
+                    expect(response.body.errors[0].message).toBe(`User ${newEmail} already exists`);
                     done();
                 });
         });

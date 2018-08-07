@@ -5,16 +5,19 @@ import { IVerifyOptions } from 'passport-local';
 import { NextFunction } from 'express-serve-static-core';
 import * as HttpStatus from 'http-status-codes';
 import AuthToken from '../auth/AuthToken';
+import { logger } from '../config/logger';
 
 const authToken = new AuthToken();
 
 export let login = (request: Request, response: Response, next: NextFunction) => {
     passport.authenticate('local', (error: Error, user: UserModel, info: IVerifyOptions) => {
         if (error) {
+            logger.error(`Authenticating user ${user.email}: ${error}`);
             return response.sendStatus(HttpStatus.BAD_REQUEST);
         }
 
         if (!user) {
+            logger.info(`User ${user.email} not found`);
             response.statusCode = 400;
             return response.send({errors: [{message: info.message}]});
         }

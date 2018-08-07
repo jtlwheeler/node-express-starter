@@ -7,6 +7,7 @@ import * as mongoose from 'mongoose';
 import * as bluebird from 'bluebird';
 import * as cors from 'cors';
 import * as path from 'path';
+import { logger } from './config/logger';
 
 require('./config/passport');
 
@@ -35,12 +36,12 @@ let attempts = 0;
 async function connectDB() {
     try {
         await mongoose.connect(config.mongoUri, {useNewUrlParser: true});
-        console.log('Connected to Mongo');
+        logger.info('Connected to Mongo');
         attempts = 0;
     }
     catch (reason) {
         attempts++;
-        console.log(`Error connecting to database (${attempts} attempts): ${reason}`);
+        logger.error(`Error connecting to database (${attempts} attempts): ${reason}`);
         setTimeout(connectDB, 3000);
     }
 }
