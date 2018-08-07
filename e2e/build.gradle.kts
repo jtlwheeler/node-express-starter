@@ -7,7 +7,7 @@ plugins {
 node {
     version = "10.5.0"
     npmVersion = "6.1.0"
-    yarnVersion = "1.7.0"
+    yarnVersion = "1.9.4"
     download = true
 }
 
