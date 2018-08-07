@@ -10,6 +10,7 @@ export let signUp = (request: Request, response: Response) => {
 
     User.findOne({email: request.body.email}, (err: any, existingUser: UserModel) => {
         if (err) {
+            console.log(err);
             response.statusCode = HttpStatus.BAD_REQUEST;
             return response.send();
         }
@@ -21,6 +22,7 @@ export let signUp = (request: Request, response: Response) => {
 
         user.save((err: any) => {
             if (err) {
+                console.log(err);
                 response.statusCode = HttpStatus.BAD_REQUEST;
                 return response.send();
             }

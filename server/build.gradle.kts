@@ -94,7 +94,7 @@ tasks {
     }
 
     "dockerBuildImage"(DockerBuildImage::class) {
-        dependsOn(":server:build")
+        dependsOn("build")
 
         inputDir = project.projectDir
         tag = "jtlwheeler/node-express-starter:latest"

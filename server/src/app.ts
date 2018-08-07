@@ -8,10 +8,10 @@ import * as bluebird from 'bluebird';
 import * as cors from 'cors';
 import * as path from 'path';
 
-const passportConfig = require('./config/passport');
+require('./config/passport');
 
 (<any>mongoose).Promise = bluebird;
-mongoose.connect(config.mongoUri, { useNewUrlParser: true });
+connectDB();
 
 const app = express();
 app.use(cors());
@@ -29,3 +29,18 @@ app.get('/*', function (req, res) {
 });
 
 module.exports = app;
+
+let attempts = 0;
+
+async function connectDB() {
+    try {
+        await mongoose.connect(config.mongoUri, {useNewUrlParser: true});
+        console.log('Connected to Mongo');
+        attempts = 0;
+    }
+    catch (reason) {
+        attempts++;
+        console.log(`Error connecting to database (${attempts} attempts): ${reason}`);
+        setTimeout(connectDB, 3000);
+    }
+}
