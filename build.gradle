@@ -6,7 +6,10 @@ subprojects {
     version = '1.0'
 }
 
+apply plugin: 'docker-compose'
+
 dockerCompose {
-    dependsOn("dockerBuildImage")
     useComposeFiles = ['docker-compose.yml']
 }
+
+composeUp.dependsOn(":server:dockerBuildImage")
