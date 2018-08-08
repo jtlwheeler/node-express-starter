@@ -13,7 +13,7 @@ buildscript {
 
 plugins {
     id("com.moowork.node") version "1.2.0"
-    id("com.bmuschko.docker-remote-api") version "3.3.3"
+    id("com.bmuschko.docker-remote-api") version "3.6.0"
 }
 
 node {
@@ -95,6 +95,9 @@ tasks {
 
     "dockerBuildImage"(DockerBuildImage::class) {
         dependsOn("build")
+
+        inputs.dir("dist")
+        outputs.dir(project.projectDir)
 
         inputDir = project.projectDir
         tag = "jtlwheeler/node-express-starter:latest"
