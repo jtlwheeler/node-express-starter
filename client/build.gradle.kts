@@ -7,12 +7,12 @@ plugins {
 node {
     version = "10.5.0"
     npmVersion = "6.1.0"
-    yarnVersion = "1.9.4"
+    yarnVersion = "1.12.3"
     download = true
 }
 
 tasks {
-    "clean"(Delete::class) {
+    register<Delete>("clean") {
         delete("build", "node_modules")
     }
 
@@ -23,7 +23,7 @@ tasks {
             "yarn.lock"
     )
 
-    "build"(YarnTask::class) {
+    register<YarnTask>("build") {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
@@ -33,7 +33,7 @@ tasks {
         args = listOf("run", "build")
     }
 
-    "testClient"(YarnTask::class) {
+    register<YarnTask>("testClient") {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
@@ -43,11 +43,11 @@ tasks {
         args = listOf("run", "test")
     }
 
-    "test" {
+    register("test") {
         dependsOn("testClient")
     }
 
-    "check" {
+    register("check") {
         dependsOn("test")
     }
 }

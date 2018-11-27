@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  server:
     image: jtlwheeler/node-express-starter
     links:
       - db

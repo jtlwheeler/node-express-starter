@@ -7,7 +7,7 @@ plugins {
 node {
     version = "10.5.0"
     npmVersion = "6.1.0"
-    yarnVersion = "1.9.4"
+    yarnVersion = "1.12.3"
     download = true
 }
 
@@ -17,7 +17,7 @@ tasks {
             "package.json",
             "yarn.lock")
 
-    "e2e"(YarnTask::class) {
+    register<YarnTask>("e2e") {
         dependsOn("yarn", ":server:startServer")
 
         inputs.files(javascriptRuntime)
@@ -28,7 +28,8 @@ tasks {
         finalizedBy(":server:stopServer")
     }
 
-    "e2eProd"(YarnTask::class) {
+    register<YarnTask>("e2eProd") {
+        dependsOn(":composeUp")
         val envs = mapOf("PROTRACTOR_BASE_URL" to "http://localhost:8080")
         setEnvironment(envs)
 

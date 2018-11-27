@@ -1,30 +1,25 @@
 import com.moowork.gradle.node.yarn.YarnTask
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath("com.bmuschko:gradle-docker-plugin:3.3.1")
-    }
+repositories {
+    mavenCentral()
+    jcenter()
 }
 
 plugins {
     id("com.moowork.node") version "1.2.0"
-    id("com.bmuschko.docker-remote-api") version "3.6.0"
+    id("com.bmuschko.docker-remote-api") version "4.0.5"
 }
 
 node {
     version = "10.5.0"
     npmVersion = "6.1.0"
-    yarnVersion = "1.9.4"
+    yarnVersion = "1.12.3"
     download = true
 }
 
 tasks {
-    "clean"(Delete::class) {
+    register<Delete>("clean") {
         delete("build", "node_modules")
     }
 
@@ -34,7 +29,7 @@ tasks {
             "tsconfig.json",
             "yarn.lock")
 
-    "build"(YarnTask::class) {
+    register<YarnTask>("build") {
         dependsOn("yarn", "copyClientToServer")
 
         inputs.files(javascriptRuntime)
@@ -44,7 +39,7 @@ tasks {
         args = listOf("run", "build")
     }
 
-    "testServer"(YarnTask::class) {
+    register<YarnTask>("testServer") {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
@@ -54,15 +49,15 @@ tasks {
         args = listOf("run", "test")
     }
 
-    "test" {
+    register("test") {
         dependsOn("testServer")
     }
 
-    "check" {
+    register("check") {
         dependsOn("test")
     }
 
-    "startServer"(YarnTask::class) {
+    register<YarnTask>("startServer") {
         dependsOn("yarn", "build")
 
         inputs.files(javascriptRuntime)
@@ -73,7 +68,7 @@ tasks {
         args = listOf("run", "startServerDaemon")
     }
 
-    "stopServer"(YarnTask::class) {
+    register<YarnTask>("stopServer") {
         dependsOn("yarn")
 
         inputs.files(javascriptRuntime)
@@ -85,7 +80,7 @@ tasks {
         args = listOf("run", "stopServerDaemon")
     }
 
-    "copyClientToServer"(Copy::class) {
+    register<Copy>("copyClientToServer") {
         dependsOn(":client:build")
 
         from("../client/build")
@@ -93,14 +88,14 @@ tasks {
         outputs.upToDateWhen { false }
     }
 
-    "dockerBuildImage"(DockerBuildImage::class) {
+    register<DockerBuildImage>("dockerBuildImage") {
         dependsOn("build")
 
         inputs.dir("dist")
         outputs.dir(project.projectDir)
 
-        inputDir = project.projectDir
-        tag = "jtlwheeler/node-express-starter:latest"
+        inputDir.set(project.projectDir)
+        tag.set("jtlwheeler/node-express-starter:latest")
     }
 }
 
