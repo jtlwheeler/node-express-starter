@@ -1,7 +1,7 @@
 import com.moowork.gradle.node.yarn.YarnTask
 
 plugins {
-    id("com.moowork.node") version "1.2.0"
+    id("com.github.node-gradle.node") version "1.3.0"
 }
 
 node {
@@ -12,6 +12,10 @@ node {
 }
 
 tasks {
+    register<Delete>("clean") {
+        delete("build", "node_modules")
+    }
+
     val javascriptRuntime = arrayOf(
             fileTree("node_modules"),
             "package.json",
@@ -29,7 +33,7 @@ tasks {
     }
 
     register<YarnTask>("e2eProd") {
-        dependsOn(":composeUp")
+        dependsOn("yarn", ":composeUp")
         val envs = mapOf("PROTRACTOR_BASE_URL" to "http://localhost:8080")
         setEnvironment(envs)
 
