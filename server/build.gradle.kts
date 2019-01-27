@@ -2,15 +2,8 @@ import com.moowork.gradle.node.yarn.YarnTask
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 plugins {
-    id("com.github.node-gradle.node") version "1.3.0"
     id("com.bmuschko.docker-remote-api") version "4.1.0"
-}
-
-node {
-    version = "10.13.0"
-    npmVersion = "6.1.0"
-    yarnVersion = "1.12.3"
-    download = true
+    id("com.github.node-gradle.node")
 }
 
 tasks {

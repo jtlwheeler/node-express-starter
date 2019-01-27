@@ -1,14 +1,7 @@
 import com.moowork.gradle.node.yarn.YarnTask
 
 plugins {
-    id("com.github.node-gradle.node") version "1.3.0"
-}
-
-node {
-    version = "10.5.0"
-    npmVersion = "6.1.0"
-    yarnVersion = "1.12.3"
-    download = true
+    id("com.github.node-gradle.node")
 }
 
 tasks {
